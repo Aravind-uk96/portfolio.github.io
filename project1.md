@@ -5,21 +5,21 @@
 ## **Objective**
 As a Database Analyst for Maven Fuzzy Factory, an eCommerce start-up, I apply advanced SQL tools and techniques to analyze business performance and uncover insights that drive growth. This project focuses on using data analysis to optimize key business areas, providing actionable insights that support strategic decision-making.
 
-### **Project Overview** 
+## **Project Overview** 
 
-## **Traffic Analysis & Optimization**
+### **Traffic Analysis & Optimization**
 In this section, I use MySQL to analyze website traffic sources, evaluating their performance in terms of traffic volume and conversion rates. The goal is to identify patterns and optimize advertising spend by adjusting bids, ensuring better budget allocation for maximum impact.
 
-## **Website Measurement & Testing**  
+### **Website Measurement & Testing**  
 In this section, I focus on page-level website data, comparing traffic and conversion rates across different pages. Using MySQL, I build and analyze conversion funnels to gain insights into the customer purchase journey, helping to optimize the user experience and improve conversion rates.
 
-## **Channel Analysis & Optimization**  
+### **Channel Analysis & Optimization**  
 In this section, I delve into the traffic channel mix, analyzing both paid and free traffic sources. I break down performance by device type and write advanced SQL queries to perform time-series analysis, helping to identify trending patterns and seasonality, ultimately optimizing channel strategy for better ROI.
 
-## **Product-Level Analysis**  
+### **Product-Level Analysis**  
 In this section, I use MySQL to analyze product-level sales and conversion rates, identifying cross-selling opportunities and evaluating refund rates to maintain product quality. This analysis provides valuable insights for product optimization and improving overall sales performance.
 
-## **User-Level Analysis**  
+### **User-Level Analysis**  
 In this section, I focus on user behavior and repeat sessions, using MySQL data analysis techniques to identify the most valuable customers. I explore which traffic channels are driving these high-value users, enabling more targeted marketing strategies and improving customer retention.
 
 
