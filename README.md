@@ -1,25 +1,45 @@
-# Data Analyst and Visualisation
+# **Data Analyst and Visualization**
 
-## Certifications
-Diploma in Computer Application
-Advanced Data Analytics using SQL
-Microsoft Power BI for Business Intelligence
+## **Certifications**
+- 📜 **Diploma in Computer Application**  
+- 📊 **Advanced Data Analytics using SQL**  
+- 📈 **Microsoft Power BI for Business Intelligence**
 
+---
 
+## **Personal Projects**
 
-### Personal Projects
+### **1. Data Analysis using SQL for an E-commerce Website**  
+**Objective**: Analyze website traffic, conversions, and user behavior to provide actionable growth recommendations.  
+**Highlights**:  
+- 🛠 Wrote advanced SQL queries using aggregates, joins, subqueries, and window functions.  
+- 📊 Performed traffic analysis and optimized marketing bids.  
+- 📈 Conducted time-series analysis to identify trends.  
+- 🔍 Built and analyzed conversion funnels to measure website performance.  
+- 👥 Segmented users to identify high-value customers for targeted strategies.  
+**Tools Used**: SQL (MySQL).  
 
-Data Analysis using SQL for an E-commerce website
-- Analysing website traffic, conversions, & user behaviour for growth recommendations.
-- Worked on SQL (MySQL), writing complex queries (aggregates, joins, sub queries, window functions).
-- Traffic Analysis of sources, optimising marketing bids, & performed time-series analysis.
-- Website Measuring with building/analysing conversion funnels.
-- User Analysis of segmented users & identifying high-value customers.
+---
 
-Power BI Dashboard building for a Bicycle manufacturing company
--Created an interactive dashboard for sales, production, & inventory insights.
--Worked on data Prep(Power Query): Connected to diverse sources (Excel, CSV, Databases), cleaned/transformed data (profiling, aggregations, rolling calendars).
--Data Modelling a relational model (star schema, relationships, filter context).
--Writing DAX measures/calculated columns for calculations, time intelligence (YoY growth), & KPIs (sales targets, inventory turnover).
--Visualisation of an interactive dashboard (charts, tables, slicers, drill-down/through).
+### **2. Power BI Dashboard for a Bicycle Manufacturing Company**  
+**Objective**: Built an interactive dashboard to provide insights into sales, production, and inventory.  
+**Highlights**:  
+- 🔄 **Data Preparation**:  
+  - Connected to diverse data sources (Excel, CSV, databases) using Power Query.  
+  - Cleaned and transformed data with profiling, aggregations, and rolling calendars.  
+- 🗂 **Data Modeling**:  
+  - Created a relational model (star schema) with robust relationships and filters.  
+- 📉 **Advanced Calculations**:  
+  - Developed DAX measures for KPIs, time intelligence (e.g., YoY growth), and sales targets.  
+- 🎨 **Visualization**:  
+  - Designed an interactive dashboard with charts, tables, slicers, and drill-throughs.  
+**Tools Used**: Power BI, Power Query, DAX.
 
+---
+
+### **How to Reach Me**
+- 📧 Email: [YourEmail@example.com](mailto:YourEmail@example.com)  
+- 💼 LinkedIn: [Your LinkedIn Profile](#)  
+- 🖥 GitHub: [Your GitHub Profile](#)
+
+---
