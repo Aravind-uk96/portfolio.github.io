@@ -22,6 +22,13 @@ In this section, I use MySQL to analyze product-level sales and conversion rates
 ### **User-Level Analysis**  
 In this section, I focus on user behavior and repeat sessions, using MySQL data analysis techniques to identify the most valuable customers. I explore which traffic channels are driving these high-value users, enabling more targeted marketing strategies and improving customer retention.
 
+---
+
+## **Database Schema**
+Below is the database schema used for this project. It also has information related to all the tables and columns associated with this project
+
+![Database Schema](assets/DB Schema.png)
+
 
 ## **Process**
 - **SQL Queries**: I wrote complex SQL queries using joins, aggregates, subqueries, and window functions to gather insights from large datasets.
