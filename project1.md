@@ -27,7 +27,7 @@ In this section, I focus on user behavior and repeat sessions, using MySQL data 
 ## **Database Schema**
 Below is the database schema used for this project. It also has information related to all the tables and columns associated with this project
 
-![Database Schema](assets/DB Schema.png)
+![Database Schema](assets/DBSchema.png)
 
 
 ## **Process**
