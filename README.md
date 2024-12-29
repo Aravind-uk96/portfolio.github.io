@@ -9,7 +9,7 @@
 
 ## **Personal Projects**
 
-### **1. Data Analysis using SQL for an E-commerce Website**  
+### **1. [Data Analysis using SQL for an E-commerce Website](project1.md)**  
 **Objective**: Analyze website traffic, conversions, and user behavior to provide actionable growth recommendations.  
 **Highlights**:  
 - 🛠 Wrote advanced SQL queries using aggregates, joins, subqueries, and window functions.  
@@ -19,9 +19,9 @@
 - 👥 Segmented users to identify high-value customers for targeted strategies.  
 **Tools Used**: SQL (MySQL).  
 
----
 
-### **2. Power BI Dashboard for a Bicycle Manufacturing Company**  
+
+### **2. [Power BI Dashboard for a Bicycle Manufacturing Company](project2.md)**  
 **Objective**: Built an interactive dashboard to provide insights into sales, production, and inventory.  
 **Highlights**:  
 - 🔄 **Data Preparation**:  
@@ -38,8 +38,6 @@
 ---
 
 ### **How to Reach Me**
-- 📧 Email: [YourEmail@example.com](mailto:YourEmail@example.com)  
-- 💼 LinkedIn: [Your LinkedIn Profile](#)  
-- 🖥 GitHub: [Your GitHub Profile](#)
-
----
+- 📧 Email: [aravind.uk96@gmail.com](mailto:aravind.uk96@gmail.com)  
+- 💼 LinkedIn: [www.linkedin.com/in/aravind-krishnan-22b3631b5](#)  
+- 🖥 GitHub: [[Your GitHub Profile](https://github.com/Aravind-uk96/portfolio.github.io)](#)
