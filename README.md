@@ -1,4 +1,4 @@
-# Data Analyst
+# Data Analyst | Data Visualisation
 
 ## Certifications
 Advanced Data Analytics using SQL
