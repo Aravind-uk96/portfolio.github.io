@@ -32,6 +32,7 @@ Below is the database schema used for this project. It also has information rela
 ---
 
 ### Data Dictionary
+
 | Table Name     | Column Name   | Data Type | Description                      | Constraints       |
 |----------------|---------------|-----------|----------------------------------|-------------------|
 | `customers`    | `customer_id` | INT       | Unique identifier for customers  | Primary Key       |
