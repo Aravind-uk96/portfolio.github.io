@@ -394,29 +394,32 @@ ORDER BY
   </tbody>
 </table>
 
----
+### **Key Findings**
+1. **High-Performing Campaign (`g_ad_1`)**:
+   - Achieved a conversion rate of **3.59%**, generating **35 orders** from **975 sessions**.
+   - Clearly the standout campaign, demonstrating strong ROI and scalability potential.
 
-### Sample Visualizations
+2. **Organic Traffic (`NULL`)**:
+   - Represented **18 sessions** with **0% conversion rate**.
+   - Highlights a need to optimize organic landing pages and improve SEO strategies.
 
-### Traffic Sources and Conversion Rates
-| **Traffic Source** | **Sessions** | **Orders** | **Conversion Rate** |  
-|--------------------|--------------|------------|---------------------|  
-| Paid Search        | 1,200        | 120        | 10%                 |  
-| Organic Search     | 3,500        | 210        | 6%                  |  
-| Social Media       | 800          | 40         | 5%                  |  
+3. **Low-Performing Campaigns (`g_as_2` and `b_ad_2`)**:
+   - Both campaigns had negligible traffic and **0% conversion rates**.
+   - Likely suffer from poor targeting, ineffective ad content, or insufficient reach.
 
-### Optimization Opportunities
-| **Campaign**   | **Spend ($)** | **Orders** | **Cost Per Order ($)** |  
-|----------------|---------------|------------|-----------------------|  
-| Campaign A     | 1,000         | 100        | 10                    |  
-| Campaign B     | 500           | 10         | 50                    |  
+### **Recommendations**
+1. **Scale High-Performing Campaigns**:
+   - Allocate more budget to campaign `g_ad_1` to maximize conversions and revenue growth.
 
----
+2. **Optimize Organic Traffic**:
+   - Evaluate landing pages and align content with user intent to improve conversion rates from organic traffic.
+   - Enhance SEO strategies to attract more relevant traffic.
 
-## Conclusions and Recommendations
-1. **Shift Budget**: Increase investment in Campaign A, which has a lower cost per order and a higher ROI.  
-2. **Eliminate Waste**: Pause or optimize Campaign B due to high cost per order and low conversion rates.  
-3. **Leverage UTM Data**: Ensure accurate tagging of future campaigns for better tracking and analysis.
+3. **Review Low-Performing Campaigns**:
+   - Reassess the targeting, messaging, and reach of `g_as_2` and `b_ad_2`.
+   - Pause these campaigns if improvements cannot be achieved, and redirect funds to higher-performing campaigns.
+
+
 
 
 
