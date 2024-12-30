@@ -7,8 +7,10 @@ As a Database Analyst for Maven Fuzzy Factory, an eCommerce start-up, I apply ad
 
 ## **Project Overview** 
 
-### [**Traffic Analysis & Optimization**](#Traffic-Analysis-and-Optimization)
+### [**Traffic Analysis and Optimization**](#Traffic-Analysis-and-Optimization)
 In this section, I use MySQL to analyze website traffic sources, evaluating their performance in terms of traffic volume and conversion rates. The goal is to identify patterns and optimize advertising spend by adjusting bids, ensuring better budget allocation for maximum impact.
+1. [Analysing top traffic sources](#Analysing-top-traffic-sources)
+2. [Analysing traffic trend weekly from gsearch](#Analysing-traffic-trend-weekly-from-gsearch)
 
 ### **Website Measurement & Testing**  
 In this section, I focus on page-level website data, comparing traffic and conversion rates across different pages. Using MySQL, I build and analyze conversion funnels to gain insights into the customer purchase journey, helping to optimize the user experience and improve conversion rates.
