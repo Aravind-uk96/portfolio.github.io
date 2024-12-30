@@ -31,14 +31,74 @@ Below is the database schema used for this project. It also has information rela
 
 ---
 
-### Data Dictionary
+## **Data Dictionary**
 
-| Table Name     | Column Name   | Data Type | Description                      | Constraints       |
-|----------------|---------------|-----------|----------------------------------|-------------------|
-| `customers`    | `customer_id` | INT       | Unique identifier for customers  | Primary Key       |
-| `customers`    | `name`        | VARCHAR   | Name of the customer             |                   |
-| `orders`       | `order_id`    | INT       | Unique identifier for orders     | Primary Key       |
-| `orders`       | `customer_id` | INT       | Foreign key linking to customers | Foreign Key       |
+### Table `website_session`
+
+| Column Name          | Data Type       | Description                      |
+|-----------------------|-----------------|----------------------------------|
+| website_session_id    | BIGINT          | Unique identifier for the session |
+| created_at            | DATETIME        | Session creation date and time   |
+| user_id               | BIGINT          | Identifier for the user          |
+| is_repeat_session     | BINARY          | Indicates if it's a repeat session |
+| utm_source            | VARCHAR(45)     | Source of the traffic            |
+| utm_campaign          | VARCHAR(45)     | Campaign name in marketing       |
+| utm_content           | VARCHAR(45)     | Content identifier in marketing  |
+| device_type           | VARCHAR(45)     | Type of device used              |
+| http_referer          | VARCHAR(45)     | HTTP referrer link               |
+
+
+### Table `website_pageviews Table`
+
+| Column Name          | Data Type       | Description                          |
+|-----------------------|-----------------|--------------------------------------|
+| website_pageview_id  | BIGINT          | Unique identifier for the pageview   |
+| created_at           | DATETIME        | Pageview creation date and time      |
+| website_session_id   | BIGINT          | Identifier for the associated session|
+| pageview_url         | VARCHAR(45)     | URL of the page viewed               |
+
+
+### Table `orders Table`
+
+| Column Name          | Data Type       | Description                          |
+|-----------------------|-----------------|--------------------------------------|
+| order_id             | BIGINT          | Unique identifier for the order      |
+| created_at           | DATETIME        | Order creation date and time         |
+| website_session_id   | BIGINT          | Identifier for the associated session|
+| user_id              | BIGINT          | Identifier for the user placing order|
+| primary_product_id   | INT             | Identifier for the primary product   |
+| items_purchased      | INT             | Total items purchased in the order   |
+| price_usd            | DECIMAL(6,2)    | Total price in USD                   |
+| cogs_usd             | DECIMAL(6,2)    | Cost of goods sold in USD            |
+
+### Table `products Table`
+
+| Column Name          | Data Type       | Description                          |
+|-----------------------|-----------------|--------------------------------------|
+| product_id           | INT             | Unique identifier for the product    |
+| created_at           | DATETIME        | Product creation date and time       |
+| product_name         | VARCHAR(45)     | Name of the product                  |
+
+### Table `order_items Table`
+
+| Column Name          | Data Type       | Description                          |
+|-----------------------|-----------------|--------------------------------------|
+| order_item_id        | BIGINT          | Unique identifier for the order item |
+| created_at           | DATETIME        | Order item creation date and time    |
+| order_id             | BIGINT          | Identifier for the associated order  |
+| product_id           | INT             | Identifier for the product in the order |
+| is_primary_item      | BINARY          | Indicates if this is the primary item |
+| price_usd            | DECIMAL(6,2)    | Price of the order item in USD       |
+| cogs_usd             | DECIMAL(6,2)    | Cost of goods sold for this item in USD |
+
+### Table `order_item_refunds Table`
+
+| Column Name          | Data Type       | Description                          |
+|-----------------------|-----------------|--------------------------------------|
+| order_item_refund_id | BIGINT          | Unique identifier for the refund     |
+| created_at           | DATETIME        | Refund creation date and time        |
+| order_item_id        | BIGINT          | Identifier for the refunded order item |
+| refund_amount_usd    | DECIMAL(6,2)    | Amount refunded in USD               |
 
 ---
 
