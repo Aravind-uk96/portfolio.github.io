@@ -35,70 +35,261 @@ Below is the database schema used for this project. It also has information rela
 
 ### Table `website_session`
 
-| Column Name          | Data Type       | Description                      |
-|-----------------------|-----------------|----------------------------------|
-| website_session_id    | BIGINT          | Unique identifier for the session |
-| created_at            | DATETIME        | Session creation date and time   |
-| user_id               | BIGINT          | Identifier for the user          |
-| is_repeat_session     | BINARY          | Indicates if it's a repeat session |
-| utm_source            | VARCHAR(45)     | Source of the traffic            |
-| utm_campaign          | VARCHAR(45)     | Campaign name in marketing       |
-| utm_content           | VARCHAR(45)     | Content identifier in marketing  |
-| device_type           | VARCHAR(45)     | Type of device used              |
-| http_referer          | VARCHAR(45)     | HTTP referrer link               |
+<table style="border: 1px solid black; border-collapse: collapse;">
+  <thead>
+    <tr>
+      <th style="border: 1px solid black; padding: 5px;">Column Name</th>
+      <th style="border: 1px solid black; padding: 5px;">Data Type</th>
+      <th style="border: 1px solid black; padding: 5px;">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">website_session_id</td>
+      <td style="border: 1px solid black; padding: 5px;">BIGINT</td>
+      <td style="border: 1px solid black; padding: 5px;">Unique identifier for the session</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">created_at</td>
+      <td style="border: 1px solid black; padding: 5px;">DATETIME</td>
+      <td style="border: 1px solid black; padding: 5px;">Session creation date and time</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">user_id</td>
+      <td style="border: 1px solid black; padding: 5px;">BIGINT</td>
+      <td style="border: 1px solid black; padding: 5px;">Identifier for the user</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">is_repeat_session</td>
+      <td style="border: 1px solid black; padding: 5px;">BINARY</td>
+      <td style="border: 1px solid black; padding: 5px;">Indicates if it's a repeat session</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">utm_source</td>
+      <td style="border: 1px solid black; padding: 5px;">VARCHAR(45)</td>
+      <td style="border: 1px solid black; padding: 5px;">Source of the traffic</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">utm_campaign</td>
+      <td style="border: 1px solid black; padding: 5px;">VARCHAR(45)</td>
+      <td style="border: 1px solid black; padding: 5px;">Marketing campaign details</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">utm_content</td>
+      <td style="border: 1px solid black; padding: 5px;">VARCHAR(45)</td>
+      <td style="border: 1px solid black; padding: 5px;">Content details</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">device_type</td>
+      <td style="border: 1px solid black; padding: 5px;">VARCHAR(45)</td>
+      <td style="border: 1px solid black; padding: 5px;">Type of device used</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">http_referer</td>
+      <td style="border: 1px solid black; padding: 5px;">VARCHAR(45)</td>
+      <td style="border: 1px solid black; padding: 5px;">HTTP referrer</td>
+    </tr>
+  </tbody>
+</table>
 
 
-### Table `website_pageviews Table`
+### Table `website_pageviews`
 
-| Column Name          | Data Type       | Description                          |
-|-----------------------|-----------------|--------------------------------------|
-| website_pageview_id  | BIGINT          | Unique identifier for the pageview   |
-| created_at           | DATETIME        | Pageview creation date and time      |
-| website_session_id   | BIGINT          | Identifier for the associated session|
-| pageview_url         | VARCHAR(45)     | URL of the page viewed               |
+<table style="border: 1px solid black; border-collapse: collapse;">
+  <thead>
+    <tr>
+      <th style="border: 1px solid black; padding: 5px;">Column Name</th>
+      <th style="border: 1px solid black; padding: 5px;">Data Type</th>
+      <th style="border: 1px solid black; padding: 5px;">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">website_pageview_id</td>
+      <td style="border: 1px solid black; padding: 5px;">BIGINT</td>
+      <td style="border: 1px solid black; padding: 5px;">Unique identifier for the pageview</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">created_at</td>
+      <td style="border: 1px solid black; padding: 5px;">DATETIME</td>
+      <td style="border: 1px solid black; padding: 5px;">Pageview creation date and time</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">website_session_id</td>
+      <td style="border: 1px solid black; padding: 5px;">BIGINT</td>
+      <td style="border: 1px solid black; padding: 5px;">Associated session identifier</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">pageview_url</td>
+      <td style="border: 1px solid black; padding: 5px;">VARCHAR(45)</td>
+      <td style="border: 1px solid black; padding: 5px;">URL of the page viewed</td>
+    </tr>
+  </tbody>
+</table>
 
 
-### Table `orders Table`
+### Table `orders`
 
-| Column Name          | Data Type       | Description                          |
-|-----------------------|-----------------|--------------------------------------|
-| order_id             | BIGINT          | Unique identifier for the order      |
-| created_at           | DATETIME        | Order creation date and time         |
-| website_session_id   | BIGINT          | Identifier for the associated session|
-| user_id              | BIGINT          | Identifier for the user placing order|
-| primary_product_id   | INT             | Identifier for the primary product   |
-| items_purchased      | INT             | Total items purchased in the order   |
-| price_usd            | DECIMAL(6,2)    | Total price in USD                   |
-| cogs_usd             | DECIMAL(6,2)    | Cost of goods sold in USD            |
+<table style="border: 1px solid black; border-collapse: collapse;">
+  <thead>
+    <tr>
+      <th style="border: 1px solid black; padding: 5px;">Column Name</th>
+      <th style="border: 1px solid black; padding: 5px;">Data Type</th>
+      <th style="border: 1px solid black; padding: 5px;">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">order_item_id</td>
+      <td style="border: 1px solid black; padding: 5px;">BIGINT</td>
+      <td style="border: 1px solid black; padding: 5px;">Unique identifier for the order item</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">created_at</td>
+      <td style="border: 1px solid black; padding: 5px;">DATETIME</td>
+      <td style="border: 1px solid black; padding: 5px;">Creation date and time of the order item</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">order_id</td>
+      <td style="border: 1px solid black; padding: 5px;">BIGINT</td>
+      <td style="border: 1px solid black; padding: 5px;">Identifier for the associated order</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">product_id</td>
+      <td style="border: 1px solid black; padding: 5px;">INT</td>
+      <td style="border: 1px solid black; padding: 5px;">Identifier for the associated product</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">is_primary_item</td>
+      <td style="border: 1px solid black; padding: 5px;">BINARY</td>
+      <td style="border: 1px solid black; padding: 5px;">Indicates if this is the primary item</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">price_usd</td>
+      <td style="border: 1px solid black; padding: 5px;">DECIMAL(6,2)</td>
+      <td style="border: 1px solid black; padding: 5px;">Price in USD</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">cogs_usd</td>
+      <td style="border: 1px solid black; padding: 5px;">DECIMAL(6,2)</td>
+      <td style="border: 1px solid black; padding: 5px;">Cost of goods sold in USD</td>
+    </tr>
+  </tbody>
+</table>
 
-### Table `products Table`
+### Table `products`
 
-| Column Name          | Data Type       | Description                          |
-|-----------------------|-----------------|--------------------------------------|
-| product_id           | INT             | Unique identifier for the product    |
-| created_at           | DATETIME        | Product creation date and time       |
-| product_name         | VARCHAR(45)     | Name of the product                  |
+<table style="border: 1px solid black; border-collapse: collapse;">
+  <thead>
+    <tr>
+      <th style="border: 1px solid black; padding: 5px;">Column Name</th>
+      <th style="border: 1px solid black; padding: 5px;">Data Type</th>
+      <th style="border: 1px solid black; padding: 5px;">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">product_id</td>
+      <td style="border: 1px solid black; padding: 5px;">INT</td>
+      <td style="border: 1px solid black; padding: 5px;">Unique identifier for the product</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">created_at</td>
+      <td style="border: 1px solid black; padding: 5px;">DATETIME</td>
+      <td style="border: 1px solid black; padding: 5px;">Product creation date and time</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">product_name</td>
+      <td style="border: 1px solid black; padding: 5px;">VARCHAR(45)</td>
+      <td style="border: 1px solid black; padding: 5px;">Name of the product</td>
+    </tr>
+  </tbody>
+</table>
 
-### Table `order_items Table`
+### Table `order_items`
 
-| Column Name          | Data Type       | Description                          |
-|-----------------------|-----------------|--------------------------------------|
-| order_item_id        | BIGINT          | Unique identifier for the order item |
-| created_at           | DATETIME        | Order item creation date and time    |
-| order_id             | BIGINT          | Identifier for the associated order  |
-| product_id           | INT             | Identifier for the product in the order |
-| is_primary_item      | BINARY          | Indicates if this is the primary item |
-| price_usd            | DECIMAL(6,2)    | Price of the order item in USD       |
-| cogs_usd             | DECIMAL(6,2)    | Cost of goods sold for this item in USD |
+<table style="border: 1px solid black; border-collapse: collapse;">
+  <thead>
+    <tr>
+      <th style="border: 1px solid black; padding: 5px;">Column Name</th>
+      <th style="border: 1px solid black; padding: 5px;">Data Type</th>
+      <th style="border: 1px solid black; padding: 5px;">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">order_item_id</td>
+      <td style="border: 1px solid black; padding: 5px;">BIGINT</td>
+      <td style="border: 1px solid black; padding: 5px;">Unique identifier for the order item</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">created_at</td>
+      <td style="border: 1px solid black; padding: 5px;">DATETIME</td>
+      <td style="border: 1px solid black; padding: 5px;">Creation date and time of the order item</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">order_id</td>
+      <td style="border: 1px solid black; padding: 5px;">BIGINT</td>
+      <td style="border: 1px solid black; padding: 5px;">Identifier for the associated order</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">product_id</td>
+      <td style="border: 1px solid black; padding: 5px;">INT</td>
+      <td style="border: 1px solid black; padding: 5px;">Identifier for the associated product</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">is_primary_item</td>
+      <td style="border: 1px solid black; padding: 5px;">BINARY</td>
+      <td style="border: 1px solid black; padding: 5px;">Indicates if this is the primary item</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">price_usd</td>
+      <td style="border: 1px solid black; padding: 5px;">DECIMAL(6,2)</td>
+      <td style="border: 1px solid black; padding: 5px;">Price in USD</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">cogs_usd</td>
+      <td style="border: 1px solid black; padding: 5px;">DECIMAL(6,2)</td>
+      <td style="border: 1px solid black; padding: 5px;">Cost of goods sold in USD</td>
+    </tr>
+  </tbody>
+</table>
 
-### Table `order_item_refunds Table`
 
-| Column Name          | Data Type       | Description                          |
-|-----------------------|-----------------|--------------------------------------|
-| order_item_refund_id | BIGINT          | Unique identifier for the refund     |
-| created_at           | DATETIME        | Refund creation date and time        |
-| order_item_id        | BIGINT          | Identifier for the refunded order item |
-| refund_amount_usd    | DECIMAL(6,2)    | Amount refunded in USD               |
+### Table `order_item_refunds`
+
+<table style="border: 1px solid black; border-collapse: collapse;">
+  <thead>
+    <tr>
+      <th style="border: 1px solid black; padding: 5px;">Column Name</th>
+      <th style="border: 1px solid black; padding: 5px;">Data Type</th>
+      <th style="border: 1px solid black; padding: 5px;">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">order_item_refund_id</td>
+      <td style="border: 1px solid black; padding: 5px;">BIGINT</td>
+      <td style="border: 1px solid black; padding: 5px;">Unique identifier for the refund</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">created_at</td>
+      <td style="border: 1px solid black; padding: 5px;">DATETIME</td>
+      <td style="border: 1px solid black; padding: 5px;">Refund creation date and time</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">order_item_id</td>
+      <td style="border: 1px solid black; padding: 5px;">BIGINT</td>
+      <td style="border: 1px solid black; padding: 5px;">Associated order item identifier</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">refund_amount_usd</td>
+      <td style="border: 1px solid black; padding: 5px;">DECIMAL(6,2)</td>
+      <td style="border: 1px solid black; padding: 5px;">Refund amount in USD</td>
+    </tr>
+  </tbody>
+</table>
+
 
 ---
 
