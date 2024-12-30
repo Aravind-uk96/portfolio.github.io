@@ -296,16 +296,16 @@ Below is the database schema used for this project. It also has information rela
 
 ## Traffic Analysis and Optimization
 
-  ### Objective - Analysing top traffic sources
+### Objective - Analysing top traffic sources
   To understand customer acquisition sources, analyze conversion rates, and optimize marketing efforts by identifying high-performing traffic patterns and opportunities to improve budget allocation.
   
   
-  ### Key Questions Addressed
+### Key Questions Addressed
   1. **Where are customers coming from?**  
   2. **What are the conversion rates for specific traffic patterns?**  
   
   
-  ### Why This Analysis is Important
+### Why This Analysis is Important
   - **Budget Optimization**:  
     - Shift budgets towards traffic sources driving the strongest conversion rates.  
     - Scale high-performing campaigns to maximize ROI.  
@@ -313,7 +313,7 @@ Below is the database schema used for this project. It also has information rela
     - Identify low-converting traffic sources and reallocate resources effectively.  
   
   
-  ### Tools and Data Sources
+### Tools and Data Sources
   - **Tables Used**:  
     - `Website_sessions`  
     - `Website_pageviews`  
@@ -534,10 +534,9 @@ ORDER BY
   </tbody>
 </table>
 
-### **Actionable Recommendations (Example):**
+### **Actionable Recommendations**
 
-*   **Identify Peaks and Dips:** If there are significant peaks or dips in sessions, investigate the possible causes (e.g., marketing campaigns, seasonality, external events).
-*   **Correlate with Other Data:** Correlate session data with other metrics (e.g., conversions, sales) to understand the impact of traffic fluctuations.
+*   **Identifying Peaks and Dips:** If there are significant peaks or dips in sessions, investigate the possible causes (e.g., marketing campaigns, seasonality, external events).
 *   **Forecast Future Traffic:** Use historical trends to forecast future traffic and plan accordingly.
 
 
