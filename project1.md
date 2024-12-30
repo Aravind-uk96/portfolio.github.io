@@ -539,6 +539,91 @@ ORDER BY
 *   **Identifying Peaks and Dips:** If there are significant peaks or dips in sessions, investigate the possible causes (e.g., marketing campaigns, seasonality, external events).
 *   **Forecast Future Traffic:** Use historical trends to forecast future traffic and plan accordingly.
 
+---
+
+
+### **Objective: Analyze Page Views for Different URLs**
+
+*   Analyze page views across various website URLs.
+*   Identify the most visited pages on the website.
+
+### **Key Questions:**
+
+*   What are the most visited pages on the website?
+*   How can we optimize the website's structure based on user behavior?
+
+### **Data Sources and Tools:**
+
+*   **Data Source:** Website pageview data (e.g., `website_pageviews`).
+*   **Key Data Points:** `pageview_url`, `website_pageview_id`, `created_at`.
+*   **Tools:** SQL, Data visualization tools (for insights).
+
+### **Analysis Steps (Process):**
+
+1.  **Data Aggregation:** Group the data by `pageview_url` and count distinct `website_pageview_id`.
+2.  **Filtering:** Apply a date filter to exclude data after `'2012-06-09'`.
+3.  **Ranking:** Sort the URLs by the total number of page views in descending order.
+
+### **SQL Code for this Analysis**
+
+```sql
+SELECT
+    pageview_url,
+    COUNT(DISTINCT website_pageview_id) AS page_views
+FROM
+    website_pageviews
+WHERE
+    created_at < '2012-06-09'
+GROUP BY
+    pageview_url
+ORDER BY
+    page_views DESC;
+```
+###**Output**
+<table style="border: 1px solid black; border-collapse: collapse;">
+  <thead>
+    <tr>
+      <th style="border: 1px solid black; padding: 5px;">pageview_url</th>
+      <th style="border: 1px solid black; padding: 5px;">page_views</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">/home</td>
+      <td style="border: 1px solid black; padding: 5px;">10403</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">/products</td>
+      <td style="border: 1px solid black; padding: 5px;">4239</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">/the-original-mr-fuzzy</td>
+      <td style="border: 1px solid black; padding: 5px;">3037</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">/cart</td>
+      <td style="border: 1px solid black; padding: 5px;">1306</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">/shipping</td>
+      <td style="border: 1px solid black; padding: 5px;">869</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">/billing</td>
+      <td style="border: 1px solid black; padding: 5px;">716</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">/thank-you-for-your-order</td>
+      <td style="border: 1px solid black; padding: 5px;">306</td>
+    </tr>
+  </tbody>
+</table>
+
+### **Actionable Recommendations**
+
+*  **Optimize High-Traffic Pages: Ensure that pages like /home and /products provide a seamless user experience and prominently feature key information.
+*  **Improve Low-Traffic Pages: Review pages like /thank-you-for-your-order for potential enhancements to encourage user engagement.
+*  **Strategic Content Placement: Use high-performing pages as platforms for driving traffic to other parts of the website.
 
 
 
