@@ -579,7 +579,7 @@ GROUP BY
 ORDER BY
     page_views DESC;
 ```
-###**Output**
+### **Output**
 <table style="border: 1px solid black; border-collapse: collapse;">
   <thead>
     <tr>
@@ -621,11 +621,143 @@ ORDER BY
 
 ### **Actionable Recommendations**
 
-*  **Optimize High-Traffic Pages: Ensure that pages like /home and /products provide a seamless user experience and prominently feature key information.
-*  **Improve Low-Traffic Pages: Review pages like /thank-you-for-your-order for potential enhancements to encourage user engagement.
-*  **Strategic Content Placement: Use high-performing pages as platforms for driving traffic to other parts of the website.
+*   **Optimize High-Traffic Pages: Ensure that pages like /home and /products provide a seamless user experience and prominently feature key information.
+*   **Improve Low-Traffic Pages: Review pages like /thank-you-for-your-order for potential enhancements to encourage user engagement.
+*   **Strategic Content Placement: Use high-performing pages as platforms for driving traffic to other parts of the website.
+
+---
 
 
+### **Objective: Analyzing Landing Page Performance**
+
+- Understand the effectiveness of landing pages in engaging users.
+- Measure the bounce rates for various landing pages to identify potential optimization opportunities.
+
+
+### **Key Questions:**
+
+1. What are the total sessions and bounce rates for each landing page?
+2. Which landing pages have the highest bounce rates, and what improvements can be made?
+
+
+### **Data Sources and Tools:**
+
+- **Data Source:** Website session and pageview data (e.g., `website_sessions`, `website_pageviews`).
+- **Key Data Points:** `website_session_id`, `website_pageview_id`, `pageview_url`, `created_at`.
+- **Tools:** SQL.
+
+### **Analysis Steps (Process):**
+
+1. **Identify the First Pageview per Session:**
+   - Create a temporary table to find the minimum `website_pageview_id` for each session within the specified date range.
+
+2. **Determine Landing Pages:**
+   - Join the first pageview data with `website_pageviews` to determine the landing page for each session.
+
+3. **Identify Bounced Sessions:**
+   - Count the number of pageviews per session and filter sessions with only one pageview to classify them as "bounced."
+
+4. **Summarize Session and Bounce Data:**
+   - Calculate the total sessions, bounced sessions, and bounce rate for each landing page.
+
+
+### **SQL Code for This Analysis**
+
+```sql
+-- STEP 1: Finding the first website_pageview_id for relevant sessions
+CREATE TEMPORARY TABLE first_pageview_demo
+SELECT
+	website_pageviews.website_session_id,
+    MIN(website_pageviews.website_pageview_id) AS min_pageview_id
+FROM
+	website_pageviews
+	INNER JOIN website_sessions
+		ON website_sessions.website_session_id = website_pageviews.website_session_id
+        AND website_sessions.created_at BETWEEN '2014-01-01' AND '2014-02-01'
+GROUP BY
+	website_pageviews.website_session_id;
+
+-- STEP 2: Identify the landing page of each session
+CREATE TEMPORARY TABLE sessions_w_landing_page_demo
+SELECT
+	first_pageview_demo.website_session_id,
+    website_pageviews.pageview_url AS landing_page
+FROM
+	first_pageview_demo
+	LEFT JOIN website_pageviews
+		ON website_pageviews.website_pageview_id = first_pageview_demo.min_pageview_id;
+
+-- STEP 3: Counting pageviews for each session, to identify "bounces"
+CREATE TEMPORARY TABLE bounced_sessions_only
+SELECT
+	sessions_w_landing_page_demo.website_session_id,
+    sessions_w_landing_page_demo.landing_page,
+    COUNT(website_pageviews.website_pageview_id) AS count_of_pages_viewed
+FROM
+	sessions_w_landing_page_demo
+	LEFT JOIN website_pageviews
+		ON website_pageviews.website_session_id = sessions_w_landing_page_demo.website_session_id
+GROUP BY
+	sessions_w_landing_page_demo.website_session_id,
+    sessions_w_landing_page_demo.landing_page
+HAVING
+	COUNT(website_pageviews.website_pageview_id) = 1;
+
+-- STEP 4: Summarizing total sessions and bounced sessions by landing page
+SELECT
+	sessions_w_landing_page_demo.landing_page,
+	COUNT(DISTINCT sessions_w_landing_page_demo.website_session_id) AS sessions,
+    COUNT(DISTINCT bounced_sessions_only.website_session_id) AS bounced_sessions,
+    COUNT(DISTINCT bounced_sessions_only.website_session_id) / COUNT(DISTINCT sessions_w_landing_page_demo.website_session_id) AS bounce_rate
+FROM
+	sessions_w_landing_page_demo
+	LEFT JOIN bounced_sessions_only
+		ON sessions_w_landing_page_demo.website_session_id = bounced_sessions_only.website_session_id
+GROUP BY
+	sessions_w_landing_page_demo.landing_page;
+```
+### **Output**
+<table style="border: 1px solid black; border-collapse: collapse;">
+  <thead>
+    <tr>
+      <th style="border: 1px solid black; padding: 5px;">landing_page</th>
+      <th style="border: 1px solid black; padding: 5px;">sessions</th>
+      <th style="border: 1px solid black; padding: 5px;">bounced_website_session_id</th>
+      <th style="border: 1px solid black; padding: 5px;">bounce_rate</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">/home</td>
+      <td style="border: 1px solid black; padding: 5px;">4093</td>
+      <td style="border: 1px solid black; padding: 5px;">1575</td>
+      <td style="border: 1px solid black; padding: 5px;">0.3848</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">/lander-2</td>
+      <td style="border: 1px solid black; padding: 5px;">6500</td>
+      <td style="border: 1px solid black; padding: 5px;">2855</td>
+      <td style="border: 1px solid black; padding: 5px;">0.4392</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">/lander-3</td>
+      <td style="border: 1px solid black; padding: 5px;">4232</td>
+      <td style="border: 1px solid black; padding: 5px;">2606</td>
+      <td style="border: 1px solid black; padding: 5px;">0.6158</td>
+    </tr>
+  </tbody>
+</table>
+
+
+### Key Insights
+- **High Bounce Rates**: Pages like `/contact-us` exhibit high bounce rates, indicating potential usability or relevance issues.
+- **Main Entry Points**: The `/home` page has the highest session count, serving as a key entry point.
+- **Optimization Opportunities**: Focus on improving engagement on high-bounce pages through A/B testing, better content alignment, or UI enhancements.
+
+### Actionable Recommendations
+- **Improve Content Relevance**: Ensure landing pages align with the expectations set by marketing campaigns.
+- **Enhance User Engagement**: Add engaging elements (e.g., CTAs, videos, or interactive content) to high-bounce pages.
+- **Analyze Traffic Source**: Segment bounce rates by traffic source to pinpoint underperforming campaigns.
 
 
 ---
