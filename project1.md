@@ -29,6 +29,17 @@ Below is the database schema used for this project. It also has information rela
 
 ![Database Schema](Assets/DBSchema.png)
 
+---
+
+### Data Dictionary
+| Table Name     | Column Name   | Data Type | Description                      | Constraints       |
+|----------------|---------------|-----------|----------------------------------|-------------------|
+| `customers`    | `customer_id` | INT       | Unique identifier for customers  | Primary Key       |
+| `customers`    | `name`        | VARCHAR   | Name of the customer             |                   |
+| `orders`       | `order_id`    | INT       | Unique identifier for orders     | Primary Key       |
+| `orders`       | `customer_id` | INT       | Foreign key linking to customers | Foreign Key       |
+
+---
 
 ## **Process**
 - **SQL Queries**: I wrote complex SQL queries using joins, aggregates, subqueries, and window functions to gather insights from large datasets.
