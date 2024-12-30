@@ -1,9 +1,21 @@
-+-----------------------+-----------------+----------------------------------+
-| Column Name           | Data Type      | Description                      |
-+-----------------------+-----------------+----------------------------------+
-| website_session_id    | BIGINT         | Unique identifier for the session |
-| created_at            | DATETIME       | Session creation date and time   |
-| user_id               | BIGINT         | Identifier for the user          |
-| is_repeat_session     | BINARY         | Indicates if it's a repeat session |
-| utm_source            | VARCHAR(45)    | Source of the traffic            |
-+-----------------------+-----------------+----------------------------------+
+<table style="border: 1px solid black; border-collapse: collapse;">
+  <thead>
+    <tr>
+      <th style="border: 1px solid black; padding: 5px;">Column Name</th>
+      <th style="border: 1px solid black; padding: 5px;">Data Type</th>
+      <th style="border: 1px solid black; padding: 5px;">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">website_session_id</td>
+      <td style="border: 1px solid black; padding: 5px;">BIGINT</td>
+      <td style="border: 1px solid black; padding: 5px;">Unique identifier for the session</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">created_at</td>
+      <td style="border: 1px solid black; padding: 5px;">DATETIME</td>
+      <td style="border: 1px solid black; padding: 5px;">Session creation date and time</td>
+    </tr>
+  </tbody>
+</table>
