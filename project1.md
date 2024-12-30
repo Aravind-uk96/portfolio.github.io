@@ -296,32 +296,32 @@ Below is the database schema used for this project. It also has information rela
 
 ## Traffic Analysis and Optimization
 
-### Objective
-To understand customer acquisition sources, analyze conversion rates, and optimize marketing efforts by identifying high-performing traffic patterns and opportunities to improve budget allocation.
-
-
-### Key Questions Addressed
-1. **Where are customers coming from?**  
-2. **What are the conversion rates for specific traffic patterns?**  
-
-
-### Why This Analysis is Important
-- **Budget Optimization**:  
-  - Shift budgets towards traffic sources driving the strongest conversion rates.  
-  - Scale high-performing campaigns to maximize ROI.  
-- **Eliminating Wasteful Spend**:  
-  - Identify low-converting traffic sources and reallocate resources effectively.  
-
-
-### Tools and Data Sources
-- **Tables Used**:  
-  - `Website_sessions`  
-  - `Website_pageviews`  
-  - `Orders`  
-
-- **Key Insights**:  
-  - Paid traffic is tagged with **UTM (Urchin Tracking Module) parameters**.  
-  - UTM parameters are appended to URLs to track specific traffic sources and campaigns.  
+  ### Objective - Analysing top traffic sources
+  To understand customer acquisition sources, analyze conversion rates, and optimize marketing efforts by identifying high-performing traffic patterns and opportunities to improve budget allocation.
+  
+  
+  ### Key Questions Addressed
+  1. **Where are customers coming from?**  
+  2. **What are the conversion rates for specific traffic patterns?**  
+  
+  
+  ### Why This Analysis is Important
+  - **Budget Optimization**:  
+    - Shift budgets towards traffic sources driving the strongest conversion rates.  
+    - Scale high-performing campaigns to maximize ROI.  
+  - **Eliminating Wasteful Spend**:  
+    - Identify low-converting traffic sources and reallocate resources effectively.  
+  
+  
+  ### Tools and Data Sources
+  - **Tables Used**:  
+    - `Website_sessions`  
+    - `Website_pageviews`  
+    - `Orders`  
+  
+  - **Key Insights**:  
+    - Paid traffic is tagged with **UTM (Urchin Tracking Module) parameters**.  
+    - UTM parameters are appended to URLs to track specific traffic sources and campaigns.  
 
 
 ### Steps in the Analysis
@@ -418,6 +418,127 @@ ORDER BY
 3. **Review Low-Performing Campaigns**:
    - Reassess the targeting, messaging, and reach of `g_as_2` and `b_ad_2`.
    - Pause these campaigns if improvements cannot be achieved, and redirect funds to higher-performing campaigns.
+
+---
+
+
+### **Objective: Analysing traffic trend weekly from gsearch**
+
+*   Analyze website traffic trends over time, specifically for filtered UTM parameters (e.g., source and campaign).
+*   Identify weekly fluctuations in website sessions.
+
+### **Key Questions:**
+
+*   How many website sessions are we getting each week for the specified UTM parameters?
+*   Are there any significant increases or decreases in sessions week over week?
+
+### **Data Sources and Tools:**
+
+*   **Data Source:** Website session data (e.g., `website_sessions`).
+*   **Key Data Points:** `created_at`, `website_session_id`, `utm_source`, `utm_campaign`.
+*   **Tools:** SQL, Data visualization tools (for trend analysis).
+
+### **Analysis Steps (Process):**
+
+1.  **Data Filtering:** Filter the `website_sessions` table based on the desired UTM parameters (e.g., `utm_source = 'gsearch'` and `utm_campaign = 'nonbrand'`).
+
+2.  **Weekly Aggregation:**
+    *   Extract the year and week number from the `created_at` timestamp.
+    *   Determine the start date of each week.
+    *   Count the distinct website sessions for each week.
+
+3.  **Trend Analysis:**
+    *   Analyze the weekly session counts to identify trends (e.g., increasing, decreasing, seasonal patterns).
+    *   Calculate week-over-week changes (percentage or absolute difference).
+
+### **SQL code for this analysis**
+
+```sql
+SELECT
+    YEAR(created_at) AS yr,
+    WEEK(created_at) AS wk,
+    MIN(DATE(created_at)) AS week_started_at,
+    COUNT(DISTINCT website_session_id) AS sessions
+FROM
+    website_sessions
+WHERE
+    created_at < '2012-05-12' -- Your original date filter
+    AND utm_source = 'gsearch' -- Your UTM filters
+    AND utm_campaign = 'nonbrand'
+GROUP BY
+    YEAR(created_at),
+    WEEK(created_at)
+ORDER BY
+    yr, wk; -- Order by year and week
+```
+
+### **Output**
+<table style="border: 1px solid black; border-collapse: collapse;">
+  <thead>
+    <tr>
+      <th style="border: 1px solid black; padding: 5px;">yr</th>
+      <th style="border: 1px solid black; padding: 5px;">wk</th>
+      <th style="border: 1px solid black; padding: 5px;">week_started_at</th>
+      <th style="border: 1px solid black; padding: 5px;">sessions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">2012</td>
+      <td style="border: 1px solid black; padding: 5px;">12</td>
+      <td style="border: 1px solid black; padding: 5px;">3/19/2012</td>
+      <td style="border: 1px solid black; padding: 5px;">896</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">2012</td>
+      <td style="border: 1px solid black; padding: 5px;">13</td>
+      <td style="border: 1px solid black; padding: 5px;">3/25/2012</td>
+      <td style="border: 1px solid black; padding: 5px;">956</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">2012</td>
+      <td style="border: 1px solid black; padding: 5px;">14</td>
+      <td style="border: 1px solid black; padding: 5px;">4/1/2012</td>
+      <td style="border: 1px solid black; padding: 5px;">1152</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">2012</td>
+      <td style="border: 1px solid black; padding: 5px;">15</td>
+      <td style="border: 1px solid black; padding: 5px;">4/8/2012</td>
+      <td style="border: 1px solid black; padding: 5px;">983</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">2012</td>
+      <td style="border: 1px solid black; padding: 5px;">16</td>
+      <td style="border: 1px solid black; padding: 5px;">4/15/2012</td>
+      <td style="border: 1px solid black; padding: 5px;">621</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">2012</td>
+      <td style="border: 1px solid black; padding: 5px;">17</td>
+      <td style="border: 1px solid black; padding: 5px;">4/22/2012</td>
+      <td style="border: 1px solid black; padding: 5px;">594</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">2012</td>
+      <td style="border: 1px solid black; padding: 5px;">18</td>
+      <td style="border: 1px solid black; padding: 5px;">4/29/2012</td>
+      <td style="border: 1px solid black; padding: 5px;">681</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">2012</td>
+      <td style="border: 1px solid black; padding: 5px;">19</td>
+      <td style="border: 1px solid black; padding: 5px;">5/6/2012</td>
+      <td style="border: 1px solid black; padding: 5px;">651</td>
+    </tr>
+  </tbody>
+</table>
+
+### **Actionable Recommendations (Example):**
+
+*   **Identify Peaks and Dips:** If there are significant peaks or dips in sessions, investigate the possible causes (e.g., marketing campaigns, seasonality, external events).
+*   **Correlate with Other Data:** Correlate session data with other metrics (e.g., conversions, sales) to understand the impact of traffic fluctuations.
+*   **Forecast Future Traffic:** Use historical trends to forecast future traffic and plan accordingly.
 
 
 
