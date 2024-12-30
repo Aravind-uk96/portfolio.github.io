@@ -295,7 +295,7 @@ Below is the database schema used for this project. It also has information rela
 
 ---
 
-
+<a name="traffic-analysis-and-optimization"></a>
 ## Traffic Analysis and Optimization
 
 <a name="analysing-top-traffic-sources"></a>
@@ -424,7 +424,7 @@ ORDER BY
 
 ---
 
-
+<a name="analysing-traffic-trend-weekly-from-gsearch"></a>
 ### **Objective: Analysing traffic trend weekly from gsearch**
 
 *   Analyze website traffic trends over time, specifically for filtered UTM parameters (e.g., source and campaign).
