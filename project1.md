@@ -298,7 +298,7 @@ Below is the database schema used for this project. It also has information rela
 
 ## Traffic Analysis and Optimization
 
-### Objective - Analysing top traffic sources
+### Objective - Analysing top traffic sources {#analysing-top-traffic-sources}
   To understand customer acquisition sources, analyze conversion rates, and optimize marketing efforts by identifying high-performing traffic patterns and opportunities to improve budget allocation.
   
   
