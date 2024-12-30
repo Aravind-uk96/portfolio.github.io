@@ -293,13 +293,132 @@ Below is the database schema used for this project. It also has information rela
 
 ---
 
-## **Process**
-- **SQL Queries**: I wrote complex SQL queries using joins, aggregates, subqueries, and window functions to gather insights from large datasets.
-- **Traffic Analysis**: Analyzed sources of traffic and optimized marketing bids using conversion rates.
-- **Segmentation**: I segmented users to identify high-value customers.
 
-## **Tools Used**
-- SQL (MySQL)
+## Traffic Analysis and Optimization
+
+### Objective
+To understand customer acquisition sources, analyze conversion rates, and optimize marketing efforts by identifying high-performing traffic patterns and opportunities to improve budget allocation.
+
+
+### Key Questions Addressed
+1. **Where are customers coming from?**  
+2. **What are the conversion rates for specific traffic patterns?**  
+
+
+### Why This Analysis is Important
+- **Budget Optimization**:  
+  - Shift budgets towards traffic sources driving the strongest conversion rates.  
+  - Scale high-performing campaigns to maximize ROI.  
+- **Eliminating Wasteful Spend**:  
+  - Identify low-converting traffic sources and reallocate resources effectively.  
+
+
+### Tools and Data Sources
+- **Tables Used**:  
+  - `Website_sessions`  
+  - `Website_pageviews`  
+  - `Orders`  
+
+- **Key Insights**:  
+  - Paid traffic is tagged with **UTM (Urchin Tracking Module) parameters**.  
+  - UTM parameters are appended to URLs to track specific traffic sources and campaigns.  
+
+
+### Steps in the Analysis
+
+1. **Traffic Source Identification**  
+   - Use **UTM parameters** to classify and segment traffic sources
+
+2. **Count the number of orders and website session id's**
+
+3. **Conversion Rate Analysis**  
+   - Calculate conversion rates for each traffic source using:  
+     ```
+     Conversion Rate = (Number of Orders) / (Website Sessions)
+     ```
+
+### SQL code for the query
+```sql
+SELECT
+    website_sessions.utm_content,
+    COUNT(DISTINCT website_sessions.website_session_id) AS sessions,
+    COUNT(DISTINCT orders.order_id) AS orders,
+    COUNT(DISTINCT orders.order_id) / COUNT(DISTINCT website_sessions.website_session_id) AS session_to_order_conversion_rate
+FROM
+    website_sessions
+    LEFT JOIN orders
+        ON website_sessions.website_session_id = orders.website_session_id
+WHERE
+    website_sessions.website_session_id BETWEEN 1000 AND 2000
+GROUP BY
+    website_sessions.utm_content
+ORDER BY
+    COUNT(DISTINCT website_sessions.website_session_id) DESC;
+```
+### Sample Output
+
+<table style="border: 1px solid black; border-collapse: collapse;">
+  <thead>
+    <tr>
+      <th style="border: 1px solid black; padding: 5px;">utm_content</th>
+      <th style="border: 1px solid black; padding: 5px;">sessions</th>
+      <th style="border: 1px solid black; padding: 5px;">orders</th>
+      <th style="border: 1px solid black; padding: 5px;">sessions_to_order_conversion_rate</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">g_ad_1</td>
+      <td style="border: 1px solid black; padding: 5px;">975</td>
+      <td style="border: 1px solid black; padding: 5px;">35</td>
+      <td style="border: 1px solid black; padding: 5px;">0.0359</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">NULL</td>
+      <td style="border: 1px solid black; padding: 5px;">18</td>
+      <td style="border: 1px solid black; padding: 5px;">0</td>
+      <td style="border: 1px solid black; padding: 5px;">0</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">g_as_2</td>
+      <td style="border: 1px solid black; padding: 5px;">6</td>
+      <td style="border: 1px solid black; padding: 5px;">0</td>
+      <td style="border: 1px solid black; padding: 5px;">0</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">b_ad_2</td>
+      <td style="border: 1px solid black; padding: 5px;">2</td>
+      <td style="border: 1px solid black; padding: 5px;">0</td>
+      <td style="border: 1px solid black; padding: 5px;">0</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+### Sample Visualizations
+
+### Traffic Sources and Conversion Rates
+| **Traffic Source** | **Sessions** | **Orders** | **Conversion Rate** |  
+|--------------------|--------------|------------|---------------------|  
+| Paid Search        | 1,200        | 120        | 10%                 |  
+| Organic Search     | 3,500        | 210        | 6%                  |  
+| Social Media       | 800          | 40         | 5%                  |  
+
+### Optimization Opportunities
+| **Campaign**   | **Spend ($)** | **Orders** | **Cost Per Order ($)** |  
+|----------------|---------------|------------|-----------------------|  
+| Campaign A     | 1,000         | 100        | 10                    |  
+| Campaign B     | 500           | 10         | 50                    |  
+
+---
+
+## Conclusions and Recommendations
+1. **Shift Budget**: Increase investment in Campaign A, which has a lower cost per order and a higher ROI.  
+2. **Eliminate Waste**: Pause or optimize Campaign B due to high cost per order and low conversion rates.  
+3. **Leverage UTM Data**: Ensure accurate tagging of future campaigns for better tracking and analysis.
+
+
 
 ---
 
