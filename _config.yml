@@ -1,6 +1,4 @@
 title: Aravind U Krishnan
 show_downloads: true 
-baseurl: "" # Leave this empty for the root directory
-url: "https://aravind-uk96.github.io/portfolio.github.io/" # Replace with your GitHub Pages URL
 markdown: kramdown
-theme: jekyll-theme-slate  # You can omit this if you don't want to use any theme
+theme: jekyll-theme-minimal  # You can omit this if you don't want to use any theme
