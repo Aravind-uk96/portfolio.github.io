@@ -21,7 +21,8 @@ In this section, I focus on page-level website data, comparing traffic and conve
 5. [**Channel Analysis & Optimization**](#channel-analysis-optimization)
 In this section, I delve into the traffic channel mix, analyzing both paid and free traffic sources. I break down performance by device type and write advanced SQL queries to perform time-series analysis, helping to identify trending patterns and seasonality, ultimately optimizing channel strategy for better ROI.
 	1. [Objective: Channel Portfoli Analysis](#objective-channel-portfolio-analysis)
-	2. [Objective: Cross Channel Bid Optimization](#cross-channel-bid-optimization) 
+	2. [Objective: Cross Channel Bid Optimization](#cross-channel-bid-optimization)
+ 	3. [Objective: Channel Portfolio Trends](#channel-portfolio-trends)
 
 7. **Product-Level Analysis**  
 In this section, I use MySQL to analyze product-level sales and conversion rates, identifying cross-selling opportunities and evaluating refund rates to maintain product quality. This analysis provides valuable insights for product optimization and improving overall sales performance.
@@ -1044,6 +1045,156 @@ GROUP BY
 
 - **Analyze Drop-Offs**:
   - Investigate drop-off points in the user journey for "bsearch" traffic on mobile to understand where improvements can be made.
+    
+
+
+---
+
+
+ 
+<a name="channel-portfolio-trends"></a>
+### **Objective: Channel Portfolio Trends**
+Understanding the trends in channel performance for "gsearch" and "bsearch" sources across desktop and mobile devices.
+
+### **Key Questions**:
+- What are the trends in session counts for "gsearch" and "bsearch" on desktop and mobile devices?
+- How does the performance of "bsearch" compare to "gsearch" across different devices?
+- What is the percentage of "bsearch" sessions relative to "gsearch" sessions for each device?
+
+### **Data Sources and Tools**:
+- **Tables**: `website_sessions`
+- **Key Metrics**: Sessions, conversion rates, device type, traffic source (utm_source).
+
+### **Steps in the Analysis**:
+1. Select relevant session data for desktop and mobile devices.
+2. Filter for sessions from "gsearch" and "bsearch" sources.
+3. Calculate the number of sessions for each combination of traffic source and device type.
+4. Compute the percentage of "bsearch" sessions relative to "gsearch" for desktop and mobile.
+
+### **SQL Code**:
+```sql
+-- Channel portfolio trends
+
+SELECT
+    MIN(DATE(created_at)) AS week_start_date,
+    COUNT(DISTINCT CASE WHEN utm_source = 'gsearch' AND device_type = 'desktop' THEN website_session_id ELSE NULL END) AS gsearch_desktop_sessions,
+    COUNT(DISTINCT CASE WHEN utm_source = 'bsearch' AND device_type = 'desktop' THEN website_session_id ELSE NULL END) AS bsearch_desktop_sessions,
+    COUNT(DISTINCT CASE WHEN utm_source = 'bsearch' AND device_type = 'desktop' THEN website_session_id ELSE NULL END)
+        / COUNT(DISTINCT CASE WHEN utm_source = 'gsearch' AND device_type = 'desktop' THEN website_session_id ELSE NULL END) AS bsearch_percent_of_gsearch_desktop,
+    COUNT(DISTINCT CASE WHEN utm_source = 'gsearch' AND device_type = 'mobile' THEN website_session_id ELSE NULL END) AS gsearch_mobile_session,
+    COUNT(DISTINCT CASE WHEN utm_source = 'bsearch' AND device_type = 'mobile' THEN website_session_id ELSE NULL END) AS bsearch_mobile_session,
+    COUNT(DISTINCT CASE WHEN utm_source = 'bsearch' AND device_type = 'mobile' THEN website_session_id ELSE NULL END) 
+        / COUNT(DISTINCT CASE WHEN utm_source = 'gsearch' AND device_type = 'mobile' THEN website_session_id ELSE NULL END) AS bsearch_percent_of_gsearch_mobile
+FROM
+    website_sessions
+WHERE
+    created_at > '2012-11-04'
+    AND created_at < '2012-12-22'
+    AND utm_campaign = 'nonbrand'
+GROUP BY
+    YEARWEEK(created_at);
+```
+### **Output**
+<table style="border: 1px solid black; border-collapse: collapse;">
+  <thead>
+    <tr>
+      <th style="border: 1px solid black; padding: 5px;">week_start_date</th>
+      <th style="border: 1px solid black; padding: 5px;">gsearch_desktop_sessions</th>
+      <th style="border: 1px solid black; padding: 5px;">bsearch_desktop_sessions</th>
+      <th style="border: 1px solid black; padding: 5px;">bsearch_percent_of_gsearch_desktop</th>
+      <th style="border: 1px solid black; padding: 5px;">gsearch_mobile_session</th>
+      <th style="border: 1px solid black; padding: 5px;">bsearch_mobile_session</th>
+      <th style="border: 1px solid black; padding: 5px;">bsearch_percent_of_gsearch_mobile</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">11/4/2012</td>
+      <td style="border: 1px solid black; padding: 5px;">1027</td>
+      <td style="border: 1px solid black; padding: 5px;">400</td>
+      <td style="border: 1px solid black; padding: 5px;">0.3895</td>
+      <td style="border: 1px solid black; padding: 5px;">323</td>
+      <td style="border: 1px solid black; padding: 5px;">29</td>
+      <td style="border: 1px solid black; padding: 5px;">0.0898</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">11/11/2012</td>
+      <td style="border: 1px solid black; padding: 5px;">956</td>
+      <td style="border: 1px solid black; padding: 5px;">401</td>
+      <td style="border: 1px solid black; padding: 5px;">0.4195</td>
+      <td style="border: 1px solid black; padding: 5px;">290</td>
+      <td style="border: 1px solid black; padding: 5px;">37</td>
+      <td style="border: 1px solid black; padding: 5px;">0.1276</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">11/18/2012</td>
+      <td style="border: 1px solid black; padding: 5px;">2655</td>
+      <td style="border: 1px solid black; padding: 5px;">1008</td>
+      <td style="border: 1px solid black; padding: 5px;">0.3797</td>
+      <td style="border: 1px solid black; padding: 5px;">853</td>
+      <td style="border: 1px solid black; padding: 5px;">85</td>
+      <td style="border: 1px solid black; padding: 5px;">0.0996</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">11/25/2012</td>
+      <td style="border: 1px solid black; padding: 5px;">2058</td>
+      <td style="border: 1px solid black; padding: 5px;">843</td>
+      <td style="border: 1px solid black; padding: 5px;">0.4096</td>
+      <td style="border: 1px solid black; padding: 5px;">692</td>
+      <td style="border: 1px solid black; padding: 5px;">62</td>
+      <td style="border: 1px solid black; padding: 5px;">0.0896</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">12/2/2012</td>
+      <td style="border: 1px solid black; padding: 5px;">1326</td>
+      <td style="border: 1px solid black; padding: 5px;">517</td>
+      <td style="border: 1px solid black; padding: 5px;">0.3899</td>
+      <td style="border: 1px solid black; padding: 5px;">396</td>
+      <td style="border: 1px solid black; padding: 5px;">31</td>
+      <td style="border: 1px solid black; padding: 5px;">0.0783</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">12/9/2012</td>
+      <td style="border: 1px solid black; padding: 5px;">1277</td>
+      <td style="border: 1px solid black; padding: 5px;">293</td>
+      <td style="border: 1px solid black; padding: 5px;">0.2294</td>
+      <td style="border: 1px solid black; padding: 5px;">424</td>
+      <td style="border: 1px solid black; padding: 5px;">46</td>
+      <td style="border: 1px solid black; padding: 5px;">0.1085</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">12/16/2012</td>
+      <td style="border: 1px solid black; padding: 5px;">1270</td>
+      <td style="border: 1px solid black; padding: 5px;">348</td>
+      <td style="border: 1px solid black; padding: 5px;">0.2740</td>
+      <td style="border: 1px solid black; padding: 5px;">376</td>
+      <td style="border: 1px solid black; padding: 5px;">41</td>
+      <td style="border: 1px solid black; padding: 5px;">0.1090</td>
+    </tr>
+  </tbody>
+</table>
+
+
+### Actionable Recommendations
+
+- **Prioritize Successful Campaigns**:
+    - The **desktop channel (gsearch)** shows consistent traffic with higher conversion rates across weeks. Focus on scaling this channel, as it demonstrates good performance with a higher number of sessions and orders.
+  
+- **Improve Mobile Conversion**:
+    - **Mobile (gsearch)** sessions show promising traffic but have lower conversion rates compared to desktop. Consider optimizing the mobile user experience (e.g., faster load times, simplified checkout) to increase conversion rates.
+    - **Bsearch** sessions on mobile also have a low conversion rate, so this traffic might need additional targeting adjustments or ad creatives.
+  
+- **Optimize bsearch for Desktop**:
+    - The **bsearch desktop sessions** show a relatively high percentage of traffic compared to **gsearch desktop**, but with lower conversion rates. Explore strategies to improve bsearch ad copy, landing page experience, or targeting for desktop users.
+
+- **Focus on High-Impact Weeks**:
+    - Weeks with higher traffic volumes such as **11/18/2012** and **11/25/2012** could indicate the success of specific marketing actions or seasonal trends. Analyzing these periods can provide insights to replicate in other weeks.
+  
+- **Monitor and Adjust for Mobile Trends**:
+    - The **mobile bsearch** channel has a lower percentage of mobile sessions converting compared to gsearch. It would be beneficial to monitor the mobile-specific ads and consider making adjustments to targeting and ad creatives for mobile users.
+
+
+  
 
 [Back to HOME](README.md)
 
