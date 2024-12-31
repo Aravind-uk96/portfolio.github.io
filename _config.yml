@@ -1,7 +1,7 @@
 title: Aravind U Krishnan
-show_downlods: True
+show_downloads: true 
 remote_theme: pages-themes/minimal@v0.2.0
 plugins:
-- jekyll-remote-theme
+  - jekyll-remote-theme
 css:
-- "/assets/css/style.css"  # Link to your custom stylesheet
+  - "/assets/css/style.css"  # Correct path to your custom stylesheet
