@@ -14,9 +14,9 @@ In this section, I use MySQL to analyze website traffic sources, evaluating thei
 
 2. [**Website Measurement & Testing**](#website-measurement-testing)
 In this section, I focus on page-level website data, comparing traffic and conversion rates across different pages. Using MySQL, I build and analyze conversion funnels to gain insights into the customer purchase journey, helping to optimize the user experience and improve conversion rates.
-	1. [Objective: Analyze Page Views for Different URLs](objective-analyze-page-views-for-different-URLs)
-	2. [Objective: Analyzing Landing Page Performance](Objective-analyzing-landing-page-performance)
-	3. [Objective : Conversion Funnel Analysis](objective-conversion-funnel-analysis)
+	1. [Objective: Analyze Page Views for Different URLs](#objective-analyze-page-views-for-different-URLs)
+	2. [Objective: Analyzing Landing Page Performance](#Objective-analyzing-landing-page-performance)
+	3. [Objective : Conversion Funnel Analysis](#objective-conversion-funnel-analysis)
  
     
 4. **Channel Analysis & Optimization**  
