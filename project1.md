@@ -14,14 +14,16 @@ In this section, I use MySQL to analyze website traffic sources, evaluating thei
 
 2. **Website Measurement & Testing**  
 In this section, I focus on page-level website data, comparing traffic and conversion rates across different pages. Using MySQL, I build and analyze conversion funnels to gain insights into the customer purchase journey, helping to optimize the user experience and improve conversion rates.
+	1. [Objective: Analyze Page Views for Different URLs](objective-analyze-page-views-for-different-URLs)
+    	2. [Objective: Analyzing Landing Page Performance](Objective-analyzing-landing-page-performance)
 
-3. **Channel Analysis & Optimization**  
+4. **Channel Analysis & Optimization**  
 In this section, I delve into the traffic channel mix, analyzing both paid and free traffic sources. I break down performance by device type and write advanced SQL queries to perform time-series analysis, helping to identify trending patterns and seasonality, ultimately optimizing channel strategy for better ROI.
 
-4. **Product-Level Analysis**  
+5. **Product-Level Analysis**  
 In this section, I use MySQL to analyze product-level sales and conversion rates, identifying cross-selling opportunities and evaluating refund rates to maintain product quality. This analysis provides valuable insights for product optimization and improving overall sales performance.
 
-5. **User-Level Analysis**  
+6. **User-Level Analysis**  
 In this section, I focus on user behavior and repeat sessions, using MySQL data analysis techniques to identify the most valuable customers. I explore which traffic channels are driving these high-value users, enabling more targeted marketing strategies and improving customer retention.
 
 ---
@@ -544,7 +546,7 @@ ORDER BY
 
 ---
 
-
+<a name="objective-analyze-page-views-for-different-URLs"></a>
 ### **Objective: Analyze Page Views for Different URLs**
 
 *   Analyze page views across various website URLs.
@@ -630,7 +632,7 @@ ORDER BY
 
 ---
 
-
+<a name="Objective-analyzing-landing-page-performance"></a>
 ### **Objective: Analyzing Landing Page Performance**
 
 - Understand the effectiveness of landing pages in engaging users.
