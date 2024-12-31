@@ -872,8 +872,70 @@ FROM
 - **Monitor Traffic Sources**: Determine if specific traffic sources contribute to higher or lower clickthrough rates at each stage for targeted optimization.
 
 
+---
 
 
+### **Objective: Channel Portfolio Analysis**
+To analyze the performance of paid traffic channels, focusing on conversion rates for sessions tagged with UTM parameters. 
+
+![conversion_funnel](Assets/conversion_funnel.png)
+
+### **Key Questions**
+- How many sessions and orders were generated for each UTM content tag?
+- What is the session-to-order conversion rate for each tag?
+
+### **Data Sources and Tools**
+- **Tables Used**: `website_sessions`, `orders`
+- **Timeframe**: Data from `2012-01-01` to `2014-02-01`
+- **Tools**: SQL
+
+### **Analysis Steps**
+1. **Identify Paid Traffic**: Focus on sessions with UTM content tags to track paid traffic.
+2. **Session-to-Order Analysis**: Count sessions and orders, and calculate conversion rates.
+3. **Group and Sort Data**: Group by UTM content and sort by session count.
+
+### **SQL Code**
+```sql
+SELECT
+	utm_content,
+    COUNT(DISTINCT website_sessions.website_session_id) AS sessions,
+    COUNT(DISTINCT orders.order_id) AS orders,
+    COUNT(DISTINCT orders.order_id) / COUNT(DISTINCT website_sessions.website_session_id) AS session_to_order_conversion_rate
+FROM
+	website_sessions
+		LEFT JOIN orders
+			ON orders.website_session_id = website_sessions.website_session_id
+WHERE
+	website_sessions.created_at BETWEEN '2012-01-01' AND '2014-02-01'
+GROUP BY 1
+ORDER BY
+	sessions DESC;
+```
+### **Output**
+<table style="border: 1px solid black; border-collapse: collapse;">
+  <thead>
+    <tr>
+      <th style="border: 1px solid black; padding: 5px;">sessions</th>
+      <th style="border: 1px solid black; padding: 5px;">lander_clickthrough_rate</th>
+      <th style="border: 1px solid black; padding: 5px;">products_clickthrough_rate</th>
+      <th style="border: 1px solid black; padding: 5px;">mr_fuzzy_clickthrough_rate</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">10644</td>
+      <td style="border: 1px solid black; padding: 5px;">0.7318</td>
+      <td style="border: 1px solid black; padding: 5px;">0.6133</td>
+      <td style="border: 1px solid black; padding: 5px;">0.6048</td>
+    </tr>
+  </tbody>
+</table>
+
+### **Actionable Recommendations**
+- **Optimize Traffic Channels**: Identify and prioritize channels that drive the highest number of sessions and have the highest conversion rates, such as those with a strong "lander_clickthrough_rate."
+- **Improve Landing Page Engagement**: Focus on improving the landing pages that are driving high traffic but showing lower conversion rates. Enhance the content or design to increase engagement and conversions.
+- **Enhance the Product Page Experience**: If the product pages are a significant part of the conversion funnel, optimize them for better user experience, faster load times, and clearer call-to-action buttons to boost the "products_clickthrough_rate."
+- **Increase Mobile Conversion Rates**: If analysis shows that mobile users are converting at a lower rate, consider optimizing the mobile user experience by simplifying the checkout process and improving page responsiveness.
 
 
 [Back to HOME](README.md)
