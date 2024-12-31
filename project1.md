@@ -21,7 +21,7 @@ In this section, I focus on page-level website data, comparing traffic and conve
 5. [**Channel Analysis & Optimization**](#channel-analysis-optimization)
 In this section, I delve into the traffic channel mix, analyzing both paid and free traffic sources. I break down performance by device type and write advanced SQL queries to perform time-series analysis, helping to identify trending patterns and seasonality, ultimately optimizing channel strategy for better ROI.
 	1. [Objective: Channel Portfoli Analysis](#objective-channel-portfolio-analysis)
- 	2. [Objective: Cross Channel Bid Optimization](#cross-channel-bid-optimization) 
+	2. [Objective: Cross Channel Bid Optimization](#cross-channel-bid-optimization) 
 
 7. **Product-Level Analysis**  
 In this section, I use MySQL to analyze product-level sales and conversion rates, identifying cross-selling opportunities and evaluating refund rates to maintain product quality. This analysis provides valuable insights for product optimization and improving overall sales performance.
