@@ -16,6 +16,7 @@ In this section, I use MySQL to analyze website traffic sources, evaluating thei
 In this section, I focus on page-level website data, comparing traffic and conversion rates across different pages. Using MySQL, I build and analyze conversion funnels to gain insights into the customer purchase journey, helping to optimize the user experience and improve conversion rates.
 	1. [Objective: Analyze Page Views for Different URLs](objective-analyze-page-views-for-different-URLs)
 	2. [Objective: Analyzing Landing Page Performance](Objective-analyzing-landing-page-performance)
+    	3. [Objective : Conversion Funnel Analysis](objective-conversion-funnel-analysis)
  
     
 4. **Channel Analysis & Optimization**  
@@ -304,8 +305,9 @@ Below is the database schema used for this project. It also has information rela
 <a name="analysing-top-traffic-sources"></a>
 ### Objective - Analysing top traffic sources
   To understand customer acquisition sources, analyze conversion rates, and optimize marketing efforts by identifying high-performing traffic patterns and opportunities to improve budget allocation.
-  
-  
+
+  ![Traffic Analysis](Assets/traffic_analysis.png)
+
 ### Key Questions Addressed
   1. **Where are customers coming from?**  
   2. **What are the conversion rates for specific traffic patterns?**  
@@ -413,6 +415,8 @@ ORDER BY
    - Both campaigns had negligible traffic and **0% conversion rates**.
    - Likely suffer from poor targeting, ineffective ad content, or insufficient reach.
 
+![Bid Optimisation](Assets/Bid_optimisation.png)
+
 ### **Recommendations**
 1. **Scale High-Performing Campaigns**:
    - Allocate more budget to campaign `g_ad_1` to maximize conversions and revenue growth.
@@ -432,6 +436,8 @@ ORDER BY
 
 *   Analyze website traffic trends over time, specifically for filtered UTM parameters (e.g., source and campaign).
 *   Identify weekly fluctuations in website sessions.
+
+  
 
 ### **Key Questions:**
 
@@ -555,6 +561,7 @@ ORDER BY
 *   Analyze page views across various website URLs.
 *   Identify the most visited pages on the website.
 
+
 ### **Key Questions:**
 
 *   What are the most visited pages on the website?
@@ -641,6 +648,7 @@ ORDER BY
 - Understand the effectiveness of landing pages in engaging users.
 - Measure the bounce rates for various landing pages to identify potential optimization opportunities.
 
+![landing_page](Assets/landing_page.png)
 
 ### **Key Questions:**
 
@@ -770,5 +778,103 @@ GROUP BY
 
 ---
 
-[Back to README](README.md)
+
+<a name="objective-conversion-funnel-analysis"></a>
+### **Objective - Conversion Funnel Analysis**
+To build a session-level conversion funnel and assess funnel performance by calculating clickthrough rates at each stage of the user journey.
+
+![conversion_funnel](Assets/conversion_funnel.png)
+
+
+## **Key Questions**
+- How many sessions occurred during the specified timeframe?
+- What are the clickthrough rates at each stage of the funnel:
+  - Lander to Products page.
+  - Products page to Mr. Fuzzy page.
+  - Mr. Fuzzy page to the Cart page.
+
+## **Data Sources and Tools**
+- **Tables Used**: `website_sessions`, `website_pageviews`
+- **Timeframe**: Data from `2014-01-01` to `2014-02-01`.
+- **Tools**: SQL
+
+## **Analysis Steps**
+1. **Identify Relevant Pageviews**: Select pageviews for specific URLs that represent stages in the funnel (`/lander-2`, `/products`, `/the-original-mr-fuzzy`, `/cart`).
+2. **Flag Session-Level Progress**: Use `MAX()` to identify whether sessions navigated through each stage.
+3. **Aggregate and Calculate Clickthrough Rates**:
+   - Calculate the proportion of sessions moving from one funnel stage to the next.
+
+## **SQL Code**
+```sql
+-- STEP 1: Create session-level flags for each funnel step
+CREATE TEMPORARY TABLE session_level_made_it_flags_demo
+SELECT
+	website_session_id,
+    MAX(products_page) AS product_made_it,
+    MAX(mrfuzzy_page) AS mrfuzzy_made_it,
+    MAX(cart_page) AS cart_made_it
+FROM (
+		SELECT
+			website_sessions.website_session_id,
+			website_pageviews.pageview_url,
+			CASE WHEN pageview_url = '/products' THEN 1 ELSE 0 END AS products_page,
+			CASE WHEN pageview_url = '/the-original-mr-fuzzy' THEN 1 ELSE 0 END AS mrfuzzy_page,
+			CASE WHEN pageview_url = '/cart' THEN 1 ELSE 0 END AS cart_page
+		FROM
+			website_sessions
+				LEFT JOIN website_pageviews
+					ON website_sessions.website_session_id = website_pageviews.website_session_id
+		WHERE
+			website_sessions.created_at BETWEEN '2014-01-01' AND '2014-02-01'
+			AND website_pageviews.pageview_url IN ('/lander-2', '/products', '/the-original-mr-fuzzy', '/cart')
+		ORDER BY
+			website_sessions.website_session_id,
+			website_pageviews.created_at
+		) AS pageview_level
+GROUP BY
+	website_session_id;
+
+-- STEP 2: Calculate funnel performance
+SELECT
+	COUNT(DISTINCT website_session_id) AS sessions,
+    COUNT(DISTINCT CASE WHEN product_made_it = 1 THEN website_session_id ELSE NULL END)
+		/ COUNT(DISTINCT website_session_id) AS lander_clickthrough_rate,
+    COUNT(DISTINCT CASE WHEN mrfuzzy_made_it = 1 THEN website_session_id ELSE NULL END)
+		/ COUNT(DISTINCT CASE WHEN product_made_it = 1 THEN website_session_id ELSE NULL END) AS products_clickthrough_rate,
+    COUNT(DISTINCT CASE WHEN cart_made_it = 1 THEN website_session_id ELSE NULL END)
+		/ COUNT(DISTINCT CASE WHEN mrfuzzy_made_it = 1 THEN website_session_id ELSE NULL END) AS mr_fuzzy_clickthrough_rate
+FROM
+	session_level_made_it_flags_demo;
+```
+### Output
+<table style="border: 1px solid black; border-collapse: collapse;">
+  <thead>
+    <tr>
+      <th style="border: 1px solid black; padding: 5px;">sessions</th>
+      <th style="border: 1px solid black; padding: 5px;">lander_clickthrough_rate</th>
+      <th style="border: 1px solid black; padding: 5px;">products_clickthrough_rate</th>
+      <th style="border: 1px solid black; padding: 5px;">mr_fuzzy_clickthrough_rate</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">10644</td>
+      <td style="border: 1px solid black; padding: 5px;">0.7318</td>
+      <td style="border: 1px solid black; padding: 5px;">0.6133</td>
+      <td style="border: 1px solid black; padding: 5px;">0.6048</td>
+    </tr>
+  </tbody>
+</table>
+
+### **Actionable Recommendations**
+- **Optimize the Products Page**: The drop-off rate between the Products page and Mr. Fuzzy page is significant. Review the Products page for issues such as unclear navigation, lack of information, or slow load times.
+- **Refine the Cart Page**: Although the Mr. Fuzzy page-to-Cart conversion rate is decent, there is room for improvement through better product descriptions, trust-building elements, or faster loading.
+- **Monitor Traffic Sources**: Determine if specific traffic sources contribute to higher or lower clickthrough rates at each stage for targeted optimization.
+
+
+
+
+
+
+[Back to HOME](README.md)
 
