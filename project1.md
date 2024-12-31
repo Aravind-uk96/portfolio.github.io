@@ -12,11 +12,12 @@ In this section, I use MySQL to analyze website traffic sources, evaluating thei
 	1. [Analysing top traffic sources](#analysing-top-traffic-sources)
 	2. [Analysing traffic trend weekly from gsearch](#analysing-traffic-trend-weekly-from-gsearch)
 
-2. **Website Measurement & Testing**  
+2. [**Website Measurement & Testing**](#website-measurement-testing)
 In this section, I focus on page-level website data, comparing traffic and conversion rates across different pages. Using MySQL, I build and analyze conversion funnels to gain insights into the customer purchase journey, helping to optimize the user experience and improve conversion rates.
 	1. [Objective: Analyze Page Views for Different URLs](objective-analyze-page-views-for-different-URLs)
-    	2. [Objective: Analyzing Landing Page Performance](Objective-analyzing-landing-page-performance)
-
+	2. [Objective: Analyzing Landing Page Performance](Objective-analyzing-landing-page-performance)
+ 
+    
 4. **Channel Analysis & Optimization**  
 In this section, I delve into the traffic channel mix, analyzing both paid and free traffic sources. I break down performance by device type and write advanced SQL queries to perform time-series analysis, helping to identify trending patterns and seasonality, ultimately optimizing channel strategy for better ROI.
 
@@ -545,6 +546,8 @@ ORDER BY
 *   **Forecast Future Traffic:** Use historical trends to forecast future traffic and plan accordingly.
 
 ---
+<a name="website-measurement-testing"></a>
+## Website Measurement & Testing
 
 <a name="objective-analyze-page-views-for-different-URLs"></a>
 ### **Objective: Analyze Page Views for Different URLs**
