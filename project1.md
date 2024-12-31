@@ -22,7 +22,7 @@ In this section, I focus on page-level website data, comparing traffic and conve
 In this section, I delve into the traffic channel mix, analyzing both paid and free traffic sources. I break down performance by device type and write advanced SQL queries to perform time-series analysis, helping to identify trending patterns and seasonality, ultimately optimizing channel strategy for better ROI.
 	1. [Objective: Channel Portfoli Analysis](#objective-channel-portfolio-analysis)
 	2. [Objective: Cross Channel Bid Optimization](#cross-channel-bid-optimization)
- 	3. [Objective: Channel Portfolio Trends](#channel-portfolio-trends)
+	3. [Objective: Channel Portfolio Trends](#channel-portfolio-trends)
 
 7. **Product-Level Analysis**  
 In this section, I use MySQL to analyze product-level sales and conversion rates, identifying cross-selling opportunities and evaluating refund rates to maintain product quality. This analysis provides valuable insights for product optimization and improving overall sales performance.
@@ -1095,84 +1095,86 @@ GROUP BY
     YEARWEEK(created_at);
 ```
 ### **Output**
-<table style="border: 1px solid black; border-collapse: collapse;">
-  <thead>
-    <tr>
-      <th style="border: 1px solid black; padding: 5px;">week_start_date</th>
-      <th style="border: 1px solid black; padding: 5px;">gsearch_desktop_sessions</th>
-      <th style="border: 1px solid black; padding: 5px;">bsearch_desktop_sessions</th>
-      <th style="border: 1px solid black; padding: 5px;">bsearch_percent_of_gsearch_desktop</th>
-      <th style="border: 1px solid black; padding: 5px;">gsearch_mobile_session</th>
-      <th style="border: 1px solid black; padding: 5px;">bsearch_mobile_session</th>
-      <th style="border: 1px solid black; padding: 5px;">bsearch_percent_of_gsearch_mobile</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="border: 1px solid black; padding: 5px;">11/4/2012</td>
-      <td style="border: 1px solid black; padding: 5px;">1027</td>
-      <td style="border: 1px solid black; padding: 5px;">400</td>
-      <td style="border: 1px solid black; padding: 5px;">0.3895</td>
-      <td style="border: 1px solid black; padding: 5px;">323</td>
-      <td style="border: 1px solid black; padding: 5px;">29</td>
-      <td style="border: 1px solid black; padding: 5px;">0.0898</td>
-    </tr>
-    <tr>
-      <td style="border: 1px solid black; padding: 5px;">11/11/2012</td>
-      <td style="border: 1px solid black; padding: 5px;">956</td>
-      <td style="border: 1px solid black; padding: 5px;">401</td>
-      <td style="border: 1px solid black; padding: 5px;">0.4195</td>
-      <td style="border: 1px solid black; padding: 5px;">290</td>
-      <td style="border: 1px solid black; padding: 5px;">37</td>
-      <td style="border: 1px solid black; padding: 5px;">0.1276</td>
-    </tr>
-    <tr>
-      <td style="border: 1px solid black; padding: 5px;">11/18/2012</td>
-      <td style="border: 1px solid black; padding: 5px;">2655</td>
-      <td style="border: 1px solid black; padding: 5px;">1008</td>
-      <td style="border: 1px solid black; padding: 5px;">0.3797</td>
-      <td style="border: 1px solid black; padding: 5px;">853</td>
-      <td style="border: 1px solid black; padding: 5px;">85</td>
-      <td style="border: 1px solid black; padding: 5px;">0.0996</td>
-    </tr>
-    <tr>
-      <td style="border: 1px solid black; padding: 5px;">11/25/2012</td>
-      <td style="border: 1px solid black; padding: 5px;">2058</td>
-      <td style="border: 1px solid black; padding: 5px;">843</td>
-      <td style="border: 1px solid black; padding: 5px;">0.4096</td>
-      <td style="border: 1px solid black; padding: 5px;">692</td>
-      <td style="border: 1px solid black; padding: 5px;">62</td>
-      <td style="border: 1px solid black; padding: 5px;">0.0896</td>
-    </tr>
-    <tr>
-      <td style="border: 1px solid black; padding: 5px;">12/2/2012</td>
-      <td style="border: 1px solid black; padding: 5px;">1326</td>
-      <td style="border: 1px solid black; padding: 5px;">517</td>
-      <td style="border: 1px solid black; padding: 5px;">0.3899</td>
-      <td style="border: 1px solid black; padding: 5px;">396</td>
-      <td style="border: 1px solid black; padding: 5px;">31</td>
-      <td style="border: 1px solid black; padding: 5px;">0.0783</td>
-    </tr>
-    <tr>
-      <td style="border: 1px solid black; padding: 5px;">12/9/2012</td>
-      <td style="border: 1px solid black; padding: 5px;">1277</td>
-      <td style="border: 1px solid black; padding: 5px;">293</td>
-      <td style="border: 1px solid black; padding: 5px;">0.2294</td>
-      <td style="border: 1px solid black; padding: 5px;">424</td>
-      <td style="border: 1px solid black; padding: 5px;">46</td>
-      <td style="border: 1px solid black; padding: 5px;">0.1085</td>
-    </tr>
-    <tr>
-      <td style="border: 1px solid black; padding: 5px;">12/16/2012</td>
-      <td style="border: 1px solid black; padding: 5px;">1270</td>
-      <td style="border: 1px solid black; padding: 5px;">348</td>
-      <td style="border: 1px solid black; padding: 5px;">0.2740</td>
-      <td style="border: 1px solid black; padding: 5px;">376</td>
-      <td style="border: 1px solid black; padding: 5px;">41</td>
-      <td style="border: 1px solid black; padding: 5px;">0.1090</td>
-    </tr>
-  </tbody>
-</table>
+<div style="overflow-x: auto; overflow-y: auto; max-width: 100%; max-height: 400px;">
+  <table style="border: 1px solid black; border-collapse: collapse;">
+    <thead>
+      <tr>
+        <th style="border: 1px solid black; padding: 5px;">week_start_date</th>
+        <th style="border: 1px solid black; padding: 5px;">gsearch_desktop_sessions</th>
+        <th style="border: 1px solid black; padding: 5px;">bsearch_desktop_sessions</th>
+        <th style="border: 1px solid black; padding: 5px;">bsearch_percent_of_gsearch_desktop</th>
+        <th style="border: 1px solid black; padding: 5px;">gsearch_mobile_session</th>
+        <th style="border: 1px solid black; padding: 5px;">bsearch_mobile_session</th>
+        <th style="border: 1px solid black; padding: 5px;">bsearch_percent_of_gsearch_mobile</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="border: 1px solid black; padding: 5px;">11/4/2012</td>
+        <td style="border: 1px solid black; padding: 5px;">1027</td>
+        <td style="border: 1px solid black; padding: 5px;">400</td>
+        <td style="border: 1px solid black; padding: 5px;">0.3895</td>
+        <td style="border: 1px solid black; padding: 5px;">323</td>
+        <td style="border: 1px solid black; padding: 5px;">29</td>
+        <td style="border: 1px solid black; padding: 5px;">0.0898</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid black; padding: 5px;">11/11/2012</td>
+        <td style="border: 1px solid black; padding: 5px;">956</td>
+        <td style="border: 1px solid black; padding: 5px;">401</td>
+        <td style="border: 1px solid black; padding: 5px;">0.4195</td>
+        <td style="border: 1px solid black; padding: 5px;">290</td>
+        <td style="border: 1px solid black; padding: 5px;">37</td>
+        <td style="border: 1px solid black; padding: 5px;">0.1276</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid black; padding: 5px;">11/18/2012</td>
+        <td style="border: 1px solid black; padding: 5px;">2655</td>
+        <td style="border: 1px solid black; padding: 5px;">1008</td>
+        <td style="border: 1px solid black; padding: 5px;">0.3797</td>
+        <td style="border: 1px solid black; padding: 5px;">853</td>
+        <td style="border: 1px solid black; padding: 5px;">85</td>
+        <td style="border: 1px solid black; padding: 5px;">0.0996</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid black; padding: 5px;">11/25/2012</td>
+        <td style="border: 1px solid black; padding: 5px;">2058</td>
+        <td style="border: 1px solid black; padding: 5px;">843</td>
+        <td style="border: 1px solid black; padding: 5px;">0.4096</td>
+        <td style="border: 1px solid black; padding: 5px;">692</td>
+        <td style="border: 1px solid black; padding: 5px;">62</td>
+        <td style="border: 1px solid black; padding: 5px;">0.0896</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid black; padding: 5px;">12/2/2012</td>
+        <td style="border: 1px solid black; padding: 5px;">1326</td>
+        <td style="border: 1px solid black; padding: 5px;">517</td>
+        <td style="border: 1px solid black; padding: 5px;">0.3899</td>
+        <td style="border: 1px solid black; padding: 5px;">396</td>
+        <td style="border: 1px solid black; padding: 5px;">31</td>
+        <td style="border: 1px solid black; padding: 5px;">0.0783</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid black; padding: 5px;">12/9/2012</td>
+        <td style="border: 1px solid black; padding: 5px;">1277</td>
+        <td style="border: 1px solid black; padding: 5px;">293</td>
+        <td style="border: 1px solid black; padding: 5px;">0.2294</td>
+        <td style="border: 1px solid black; padding: 5px;">424</td>
+        <td style="border: 1px solid black; padding: 5px;">46</td>
+        <td style="border: 1px solid black; padding: 5px;">0.1085</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid black; padding: 5px;">12/16/2012</td>
+        <td style="border: 1px solid black; padding: 5px;">1270</td>
+        <td style="border: 1px solid black; padding: 5px;">348</td>
+        <td style="border: 1px solid black; padding: 5px;">0.2740</td>
+        <td style="border: 1px solid black; padding: 5px;">376</td>
+        <td style="border: 1px solid black; padding: 5px;">41</td>
+        <td style="border: 1px solid black; padding: 5px;">0.1090</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
 
 ### Actionable Recommendations
