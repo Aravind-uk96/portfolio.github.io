@@ -17,6 +17,7 @@ In this section, I focus on page-level website data, comparing traffic and conve
 	1. [Objective: Analyze Page Views for Different URLs](#objective-analyze-page-views-for-different-URLs)
 	2. [Objective: Analyzing Landing Page Performance](#Objective-analyzing-landing-page-performance)
 	3. [Objective : Conversion Funnel Analysis](#objective-conversion-funnel-analysis)
+ 	4. [Objective : Channel Portfoli Analysis](#objective-channel-portfolio-analysis)
  
     
 4. **Channel Analysis & Optimization**  
@@ -874,11 +875,11 @@ FROM
 
 ---
 
-
+<a name="objective-channel-portfolio-analysis"></a>
 ### **Objective: Channel Portfolio Analysis**
 To analyze the performance of paid traffic channels, focusing on conversion rates for sessions tagged with UTM parameters. 
 
-![conversion_funnel](Assets/conversion_funnel.png)
+![channel portfolio](Assets/channel_portfolio.png)
 
 ### **Key Questions**
 - How many sessions and orders were generated for each UTM content tag?
