@@ -16,17 +16,17 @@ In this section, I use MySQL to analyze website traffic sources, evaluating thei
 In this section, I focus on page-level website data, comparing traffic and conversion rates across different pages. Using MySQL, I build and analyze conversion funnels to gain insights into the customer purchase journey, helping to optimize the user experience and improve conversion rates.
 	1. [Objective: Analyze Page Views for Different URLs](#objective-analyze-page-views-for-different-URLs)
 	2. [Objective: Analyzing Landing Page Performance](#Objective-analyzing-landing-page-performance)
-	3. [Objective: Conversion Funnel Analysis](#objective-conversion-funnel-analysis)
-	4. [Objective: Channel Portfoli Analysis](#objective-channel-portfolio-analysis)
- 
+	3. [Objective: Conversion Funnel Analysis](#objective-conversion-funnel-analysis) 
     
-5. **Channel Analysis & Optimization**  
+5. [**Channel Analysis & Optimization**](#channel-analysis-optimization)
 In this section, I delve into the traffic channel mix, analyzing both paid and free traffic sources. I break down performance by device type and write advanced SQL queries to perform time-series analysis, helping to identify trending patterns and seasonality, ultimately optimizing channel strategy for better ROI.
+	1. [Objective: Channel Portfoli Analysis](#objective-channel-portfolio-analysis)
+ 	2. [Objective: Cross Channel Bid Optimization](#cross-channel-bid-optimization) 
 
-6. **Product-Level Analysis**  
+7. **Product-Level Analysis**  
 In this section, I use MySQL to analyze product-level sales and conversion rates, identifying cross-selling opportunities and evaluating refund rates to maintain product quality. This analysis provides valuable insights for product optimization and improving overall sales performance.
 
-7. **User-Level Analysis**  
+8. **User-Level Analysis**  
 In this section, I focus on user behavior and repeat sessions, using MySQL data analysis techniques to identify the most valuable customers. I explore which traffic channels are driving these high-value users, enabling more targeted marketing strategies and improving customer retention.
 
 ---
@@ -875,6 +875,9 @@ FROM
 
 ---
 
+<a name="channel-analysis-optimization"></a>
+## **Channel Analysis & Optimization**
+
 <a name="objective-channel-portfolio-analysis"></a>
 ### **Objective: Channel Portfolio Analysis**
 To analyze the performance of paid traffic channels, focusing on conversion rates for sessions tagged with UTM parameters. 
@@ -938,6 +941,109 @@ ORDER BY
 - **Enhance the Product Page Experience**: If the product pages are a significant part of the conversion funnel, optimize them for better user experience, faster load times, and clearer call-to-action buttons to boost the "products_clickthrough_rate."
 - **Increase Mobile Conversion Rates**: If analysis shows that mobile users are converting at a lower rate, consider optimizing the mobile user experience by simplifying the checkout process and improving page responsiveness.
 
+---
+<a name="cross-channel-bid-optimization"></a>
+### **Objective: Cross Channel Bid Optimization**
+To optimize bids across different channels by analyzing device types, traffic sources, and their respective conversion rates.
+
+### **Key Questions**
+- How do conversion rates differ by device type and traffic source?
+- Which combinations of device type and traffic source are driving the highest conversions?
+
+### **Data Sources and Tools**
+- **Tables Used**: `website_sessions`, `orders`
+- **Timeframe**: From `'2012-08-22'` to `'2012-09-19'`
+- **Tools**: SQL
+
+### **Analysis Steps**
+1. **Filter Data**: Select sessions with a UTM campaign value of `'nonbrand'` within the specified date range.
+2. **Join Data**: Combine `website_sessions` and `orders` tables to match sessions with orders.
+3. **Aggregate Data**: Group data by device type and traffic source, counting sessions, orders, and calculating conversion rates.
+
+### **SQL Code**
+```sql
+SELECT
+	website_sessions.device_type,
+    	website_sessions.utm_source,
+    	COUNT(DISTINCT website_sessions.website_session_id) AS sessions,
+    	COUNT(DISTINCT orders.order_id) AS orders,
+    	COUNT(DISTINCT orders.order_id) / COUNT(DISTINCT website_sessions.website_session_id) AS conversion_rate
+FROM
+	website_sessions
+		LEFT JOIN orders
+			ON website_sessions.website_session_id = orders.website_session_id
+WHERE
+	website_sessions.created_at > '2012-08-22'
+    AND website_sessions.created_at < '2012-09-19'
+    AND website_sessions.utm_campaign = 'nonbrand'
+GROUP BY
+	website_sessions.device_type,
+ 	website_sessions.utm_source;
+```
+### Output
+<table style="border: 1px solid black; border-collapse: collapse;">
+  <thead>
+    <tr>
+      <th style="border: 1px solid black; padding: 5px;">device_ty</th>
+      <th style="border: 1px solid black; padding: 5px;">utm_sour</th>
+      <th style="border: 1px solid black; padding: 5px;">sessions</th>
+      <th style="border: 1px solid black; padding: 5px;">orders</th>
+      <th style="border: 1px solid black; padding: 5px;">conversion_rate</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">desktop</td>
+      <td style="border: 1px solid black; padding: 5px;">bsearch</td>
+      <td style="border: 1px solid black; padding: 5px;">1162</td>
+      <td style="border: 1px solid black; padding: 5px;">44</td>
+      <td style="border: 1px solid black; padding: 5px;">0.0379</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">desktop</td>
+      <td style="border: 1px solid black; padding: 5px;">gsearch</td>
+      <td style="border: 1px solid black; padding: 5px;">3011</td>
+      <td style="border: 1px solid black; padding: 5px;">136</td>
+      <td style="border: 1px solid black; padding: 5px;">0.0452</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">mobile</td>
+      <td style="border: 1px solid black; padding: 5px;">bsearch</td>
+      <td style="border: 1px solid black; padding: 5px;">130</td>
+      <td style="border: 1px solid black; padding: 5px;">1</td>
+      <td style="border: 1px solid black; padding: 5px;">0.0077</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">mobile</td>
+      <td style="border: 1px solid black; padding: 5px;">gsearch</td>
+      <td style="border: 1px solid black; padding: 5px;">1015</td>
+      <td style="border: 1px solid black; padding: 5px;">13</td>
+      <td style="border: 1px solid black; padding: 5px;">0.0128</td>
+    </tr>
+  </tbody>
+</table>
+
+### Actionable Recommendations
+
+- **Optimize Desktop Campaigns**:
+  - Focus on improving the conversion rate for desktop traffic from "bsearch" as it has a lower conversion rate compared to "gsearch."
+  - Test different ad creatives or landing pages tailored for desktop users.
+
+- **Enhance Mobile Performance**:
+  - Analyze and address the very low conversion rates for "bsearch" and "gsearch" on mobile.
+  - Ensure mobile-optimized landing pages and faster load times to improve user experience.
+
+- **Allocate Budget Effectively**:
+  - Allocate more budget towards "gsearch" campaigns on both desktop and mobile, as they demonstrate higher conversion rates compared to "bsearch."
+
+- **Run A/B Tests**:
+  - Conduct A/B testing for campaign content, targeting parameters, and landing pages to identify factors impacting conversions.
+
+- **Improve Mobile User Engagement**:
+  - Implement targeted strategies such as personalized offers, simplified checkout processes, and clear calls-to-action for mobile users.
+
+- **Analyze Drop-Offs**:
+  - Investigate drop-off points in the user journey for "bsearch" traffic on mobile to understand where improvements can be made.
 
 [Back to HOME](README.md)
 
