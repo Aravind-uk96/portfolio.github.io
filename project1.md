@@ -1196,7 +1196,921 @@ GROUP BY
     - The **mobile bsearch** channel has a lower percentage of mobile sessions converting compared to gsearch. It would be beneficial to monitor the mobile-specific ads and consider making adjustments to targeting and ad creatives for mobile users.
 
 
+---
+
+<a name="analyzing-order-and-revenue-performance"></a>
+### **Objective: Analyzing Order and Revenue Performance by Product**
+
+*   Evaluate the performance of primary products in terms of orders, revenue, margin, and average order value (AOV).
+*   Identify the top-selling products and their contributions to overall revenue and profitability.
+
+### **Key Questions:**
+
+*   Which products generate the highest number of orders?
+*   What is the revenue, margin, and AOV for each product?
+*   Are there significant differences in profitability between products?
+
+### **Data Sources and Tools:**
+
+*   **Data Source:** `orders` table.
+*   **Key Data Points:** `primary_product_id`, `order_id`, `price_usd`, `cogs_usd`.
+*   **Tools:** SQL, Data visualization tools (for detailed product performance analysis).
+
+### **Analysis Steps (Process):**
+
+1. **Data Aggregation:**
+   * Group the data by `primary_product_id`.
+   * Calculate the total orders, revenue, margin, and average order value (AOV).
+
+2. **Sorting and Ranking:**
+   * Order the results by the count of `order_id` in descending order to identify top-performing products.
+
+3. **Metric Calculation:**
+   * Revenue = Sum of `price_usd`.
+   * Margin = Sum of (`price_usd` - `cogs_usd`).
+   * AOV = Average of `price_usd`.
+
+4. **Trend Analysis:**
+   * Analyze the revenue and margin contribution of each product.
+
+### **SQL Code for this Analysis**
+
+```sql
+SELECT
+    primary_product_id,
+    COUNT(order_id) AS orders,
+    SUM(price_usd) AS revenue,
+    SUM(price_usd - cogs_usd) AS margin,
+    AVG(price_usd) AS aov
+FROM
+    orders
+GROUP BY
+    primary_product_id
+ORDER BY
+    COUNT(order_id) DESC;
+```
+### Output
+<table style="border: 1px solid black; border-collapse: collapse;">
+  <thead>
+    <tr>
+      <th style="border: 1px solid black; padding: 5px;">primary_product_id</th>
+      <th style="border: 1px solid black; padding: 5px;">orders</th>
+      <th style="border: 1px solid black; padding: 5px;">revenue</th>
+      <th style="border: 1px solid black; padding: 5px;">margin</th>
+      <th style="border: 1px solid black; padding: 5px;">aov</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">1</td>
+      <td style="border: 1px solid black; padding: 5px;">23,861</td>
+      <td style="border: 1px solid black; padding: 5px;">1,419,768</td>
+      <td style="border: 1px solid black; padding: 5px;">879,952</td>
+      <td style="border: 1px solid black; padding: 5px;">59.50</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">2</td>
+      <td style="border: 1px solid black; padding: 5px;">4,803</td>
+      <td style="border: 1px solid black; padding: 5px;">318,109.20</td>
+      <td style="border: 1px solid black; padding: 5px;">200,348</td>
+      <td style="border: 1px solid black; padding: 5px;">66.23</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">3</td>
+      <td style="border: 1px solid black; padding: 5px;">3,068</td>
+      <td style="border: 1px solid black; padding: 5px;">180,857</td>
+      <td style="border: 1px solid black; padding: 5px;">122,410.50</td>
+      <td style="border: 1px solid black; padding: 5px;">58.95</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">4</td>
+      <td style="border: 1px solid black; padding: 5px;">581</td>
+      <td style="border: 1px solid black; padding: 5px;">19,775.72</td>
+      <td style="border: 1px solid black; padding: 5px;">13,429</td>
+      <td style="border: 1px solid black; padding: 5px;">34.04</td>
+    </tr>
+  </tbody>
+</table>
+
+### Actionable Recommendations
+
+- **Focus on Top Performers**:
+    - The **primary_product_id 1** generates the highest number of orders (23,861), revenue (1,419,768), and margin (879,952). Scaling production and marketing for this product could maximize returns.
+    - Similarly, **primary_product_id 2** also performs well and has a high AOV (66.23). Consider expanding its availability or adding complementary products to boost sales further.
+
+- **Optimize Underperformers**:
+    - **Primary_product_id 4** has a much lower order count and margin. Investigate the potential reasons for its underperformance, such as its lower AOV (34.04). Consider evaluating its pricing strategy, promotional efforts, and customer feedback to identify areas for improvement.
+
+- **Increase AOV Across All Products**:
+    - Consider strategies to increase the AOV for products, particularly **primary_product_id 4**, which has the lowest AOV. This could involve offering upsell opportunities, bundling products, or incentivizing larger purchases.
+
+- **Monitor Margin Trends**:
+    - Ensure that products like **primary_product_id 1** and **primary_product_id 2**, which generate the highest margins, continue to perform well and remain profitable. Any shifts in their cost structures should be closely monitored to preserve margins.
+
+- **Strategic Focus on High Revenue and Margin Products**:
+    - Prioritize marketing, production, and supply chain strategies that support products generating high revenue and margin, particularly **primary_product_id 1** and **primary_product_id 2**, while reevaluating strategies for the lower-performing products.
+
+---
+
+<a name="trend-analysis-of-products"></a>
+### **Objective: Trend Analysis of Products**
+
+*   Analyze the sales and revenue trends over a period, specifically by month and year.
+*   Identify monthly fluctuations in sales volume, total revenue, and margin.
+
+### **Key Questions:**
+
+*   What are the monthly sales trends (number of sales) over the specified period?
+*   How does total revenue and margin change month over month?
+
+### **Data Sources and Tools:**
+
+*   **Data Source:** Orders table.
+*   **Key Data Points:** `created_at`, `order_id`, `price_usd`, `cogs_usd`.
+*   **Tools:** SQL, Data visualization tools (for trend analysis).
+
+### **Analysis Steps (Process):**
+
+1.  **Data Filtering:** Filter the `orders` table based on the desired date range (before '2013-01-04').
+2.  **Monthly Aggregation:**
+    *   Extract the year and month from the `created_at` timestamp.
+    *   Count the distinct `order_id` for each month to get the number of sales.
+    *   Calculate the total revenue (sum of `price_usd`).
+    *   Calculate the total margin (sum of `price_usd - cogs_usd`).
+3.  **Trend Analysis:**
+    *   Analyze the monthly trends for number of sales, revenue, and margin.
+    *   Identify patterns and fluctuations month over month.
+
+### **SQL code for this analysis**
+
+```sql
+SELECT
+    YEAR(created_at) AS yr,
+    MONTH(created_at) AS mnt,
+    COUNT(DISTINCT order_id) AS number_od_sales,
+    SUM(price_usd) AS total_revenue,
+    SUM(price_usd - cogs_usd) AS total_margin
+FROM
+    orders
+WHERE
+    created_at < '2013-01-04'
+GROUP BY
+    YEAR(created_at),
+    MONTH(created_at);
+```
+### ***Output***
+<div style="max-height: 300px; overflow-y: auto;">
+  <table style="border: 1px solid black; border-collapse: collapse; width: 100%;">
+    <thead>
+      <tr>
+        <th style="border: 1px solid black; padding: 5px;">yr</th>
+        <th style="border: 1px solid black; padding: 5px;">mnt</th>
+        <th style="border: 1px solid black; padding: 5px;">number_od_sales</th>
+        <th style="border: 1px solid black; padding: 5px;">total_revenue</th>
+        <th style="border: 1px solid black; padding: 5px;">total_margin</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="border: 1px solid black; padding: 5px;">2012</td>
+        <td style="border: 1px solid black; padding: 5px;">3</td>
+        <td style="border: 1px solid black; padding: 5px;">60</td>
+        <td style="border: 1px solid black; padding: 5px;">2,999.4</td>
+        <td style="border: 1px solid black; padding: 5px;">1,830</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid black; padding: 5px;">2012</td>
+        <td style="border: 1px solid black; padding: 5px;">4</td>
+        <td style="border: 1px solid black; padding: 5px;">99</td>
+        <td style="border: 1px solid black; padding: 5px;">4,949.01</td>
+        <td style="border: 1px solid black; padding: 5px;">3,019.5</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid black; padding: 5px;">2012</td>
+        <td style="border: 1px solid black; padding: 5px;">5</td>
+        <td style="border: 1px solid black; padding: 5px;">108</td>
+        <td style="border: 1px solid black; padding: 5px;">5,398.92</td>
+        <td style="border: 1px solid black; padding: 5px;">3,294</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid black; padding: 5px;">2012</td>
+        <td style="border: 1px solid black; padding: 5px;">6</td>
+        <td style="border: 1px solid black; padding: 5px;">140</td>
+        <td style="border: 1px solid black; padding: 5px;">6,998.6</td>
+        <td style="border: 1px solid black; padding: 5px;">4,270</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid black; padding: 5px;">2012</td>
+        <td style="border: 1px solid black; padding: 5px;">7</td>
+        <td style="border: 1px solid black; padding: 5px;">169</td>
+        <td style="border: 1px solid black; padding: 5px;">8,448.31</td>
+        <td style="border: 1px solid black; padding: 5px;">5,154.5</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid black; padding: 5px;">2012</td>
+        <td style="border: 1px solid black; padding: 5px;">8</td>
+        <td style="border: 1px solid black; padding: 5px;">228</td>
+        <td style="border: 1px solid black; padding: 5px;">11,397.72</td>
+        <td style="border: 1px solid black; padding: 5px;">6,954</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid black; padding: 5px;">2012</td>
+        <td style="border: 1px solid black; padding: 5px;">9</td>
+        <td style="border: 1px solid black; padding: 5px;">287</td>
+        <td style="border: 1px solid black; padding: 5px;">14,347.13</td>
+        <td style="border: 1px solid black; padding: 5px;">8,753.5</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid black; padding: 5px;">2012</td>
+        <td style="border: 1px solid black; padding: 5px;">10</td>
+        <td style="border: 1px solid black; padding: 5px;">371</td>
+        <td style="border: 1px solid black; padding: 5px;">18,546.29</td>
+        <td style="border: 1px solid black; padding: 5px;">11,315.5</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid black; padding: 5px;">2012</td>
+        <td style="border: 1px solid black; padding: 5px;">11</td>
+        <td style="border: 1px solid black; padding: 5px;">618</td>
+        <td style="border: 1px solid black; padding: 5px;">30,893.82</td>
+        <td style="border: 1px solid black; padding: 5px;">18,849</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid black; padding: 5px;">2012</td>
+        <td style="border: 1px solid black; padding: 5px;">12</td>
+        <td style="border: 1px solid black; padding: 5px;">506</td>
+        <td style="border: 1px solid black; padding: 5px;">25,294.94</td>
+        <td style="border: 1px solid black; padding: 5px;">15,433</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid black; padding: 5px;">2013</td>
+        <td style="border: 1px solid black; padding: 5px;">1</td>
+        <td style="border: 1px solid black; padding: 5px;">42</td>
+        <td style="border: 1px solid black; padding: 5px;">2,099.58</td>
+        <td style="border: 1px solid black; padding: 5px;">1,281</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+### Actionable Recommendations
+
+- **Increase Focus on Peak Months**:
+    - The months **November** and **December 2012** show significant sales volumes with high revenue and margin. Consider allocating more resources to marketing efforts and promotions during these months to leverage peak performance.
+
+- **Boost Sales in Early Months**:
+    - Months like **March** and **January 2013** have lower sales. To drive growth, you might want to launch targeted campaigns during these periods to boost awareness and sales.
+
+- **Optimize Marketing Spend Based on Revenue and Margin**:
+    - Focus on months like **October 2012** where the number of sales and margins are high. Optimizing your marketing spend based on this pattern can improve ROI, especially as this month yielded the highest total revenue and margin.
+
+- **Adjust Product Pricing or Promotions in Low Sales Months**:
+    - During **March 2012**, sales were low, which indicates a potential mismatch with customer demand. Experimenting with pricing strategies or promotions may help increase sales in these slower months.
   
+- **Continue Monitoring Revenue Trends in Early 2013**:
+    - As **January 2013** shows a decline in both sales and revenue compared to previous months, it may be worthwhile to monitor this trend closely. Consider revisiting pricing models or exploring new customer segments to address any market changes.
+ 
+---
+
+<a name="product-level-website-analysis"></a>
+### **Objective: Product Level Website Analysis**
+
+*   Understand which products generate more interest on a multi-product page.
+*   Analyze the impact of product conversion rates.
+*   Build product-specific conversion funnels.
+
+### **Key Questions:**
+
+*   Which products generate the highest interest on a multi-product page?
+*   What is the conversion rate from viewing a product to placing an order?
+*   How can we optimize the product-specific conversion funnels for better performance?
+
+### **Data Sources and Tools:**
+
+*   **Data Source:** `website_pageviews`, `orders` tables.
+*   **Key Data Points:** `website_session_id`, `pageview_url`, `order_id`.
+*   **Tools:** SQL, Web Analytics tools (for tracking user behavior and conversion rates).
+
+### **Analysis Steps (Process):**
+
+1. **Data Aggregation:**
+   * Group the data by `pageview_url` to segment by specific products.
+   * Count distinct sessions and orders for each product page.
+
+2. **Metric Calculation:**
+   * **Viewed to Order Conversion Rate** = Count of distinct `order_id` / Count of distinct `website_session_id`.
+   * This metric tracks the conversion rate from product view to order for each product page.
+
+3. **Filtering:**
+   * Focus on product pages (`/the-original-mr-fuzzy`, `/the-forever-love-bear`) within the specified date range.
+
+4. **Comparison:**
+   * Compare the conversion rates and sessions between different product pages to identify which product performs better.
+
+### **SQL Code for this Analysis**
+
+```sql
+SELECT
+    website_pageviews.pageview_url,
+    COUNT(DISTINCT website_pageviews.website_session_id) AS sessions,
+    COUNT(DISTINCT orders.order_id) AS orders,
+    COUNT(DISTINCT orders.order_id) / COUNT(DISTINCT website_pageviews.website_session_id) AS viewed_product_to_order_conversion_rate
+FROM
+    website_pageviews
+        LEFT JOIN orders
+            ON website_pageviews.website_session_id = orders.website_session_id
+WHERE
+    website_pageviews.created_at BETWEEN '2013-02-01' AND '2013-03-01'
+    AND website_pageviews.pageview_url IN ('/the-original-mr-fuzzy','/the-forever-love-bear')
+GROUP BY
+    website_pageviews.pageview_url;
+```
+
+### Output
+
+<table style="border: 1px solid black; border-collapse: collapse;">
+  <thead>
+    <tr>
+      <th style="border: 1px solid black; padding: 5px;">pageview_url</th>
+      <th style="border: 1px solid black; padding: 5px;">sessions</th>
+      <th style="border: 1px solid black; padding: 5px;">orders</th>
+      <th style="border: 1px solid black; padding: 5px;">viewed_product_to_order_conversion_rate</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">/the-original-mr-fuzzy</td>
+      <td style="border: 1px solid black; padding: 5px;">4,500</td>
+      <td style="border: 1px solid black; padding: 5px;">450</td>
+      <td style="border: 1px solid black; padding: 5px;">0.10</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">/the-forever-love-bear</td>
+      <td style="border: 1px solid black; padding: 5px;">6,200</td>
+      <td style="border: 1px solid black; padding: 5px;">620</td>
+      <td style="border: 1px solid black; padding: 5px;">0.10</td>
+    </tr>
+  </tbody>
+</table>
+
+### Actionable Recommendations
+
+- **Focus on High-Converting Products:**
+    - Both **/the-original-mr-fuzzy** and **/the-forever-love-bear** have a conversion rate of 0.10. Although the conversion rates are identical, **/the-forever-love-bear** generates more sessions and orders. Consider optimizing marketing efforts or offering promotions for **/the-original-mr-fuzzy** to drive higher engagement.
+
+- **Optimize Conversion Funnels:**
+    - Both product pages have similar conversion rates, indicating a potential opportunity to enhance the user experience or call-to-action on either product page. Review the product detail page, checkout process, and user feedback to identify potential friction points.
+
+- **Increase Visibility of High-Interest Products:**
+    - Given the higher number of sessions for **/the-forever-love-bear**, focus on increasing the visibility of this product, such as through banner ads or recommendations on other pages, to capitalize on its higher traffic.
+
+- **Track Product-Specific Performance Over Time:**
+    - Regularly monitor the conversion rates and sessions for each product page to track the impact of any changes made to the product pages or marketing efforts. This will help in making data-driven decisions for future optimizations.
+
+
+---
+
+
+<a name="product-specific-conversion-funnels"></a>
+### **Objective: Product-Specific Conversion Funnels**
+
+*   Analyze the conversion funnel for products viewed on a multi-product page.
+*   Understand the progression from product page view to completing the checkout process.
+*   Evaluate the drop-off rates at each stage of the funnel for each product.
+
+### **Key Questions:**
+
+*   What is the conversion rate for each product's journey from the product page to the checkout process?
+*   Which product has the highest product page clickthrough and checkout conversion rates?
+*   Where do users drop off the most in the checkout funnel?
+
+### **Data Sources and Tools:**
+
+*   **Data Source:** `website_pageviews`, `orders` tables.
+*   **Key Data Points:** `website_session_id`, `pageview_url`, `order_id`, `website_pageview_id`.
+*   **Tools:** SQL, Web Analytics tools (for tracking user behavior and conversion rates).
+
+### **Analysis Steps (Process):**
+
+1. **Identify Relevant Pageviews:**
+   * Filter the sessions to identify pageviews for the relevant product pages (`/the-original-mr-fuzzy`, `/the-forever-love-bear`).
+
+2. **Track Funnel Progression:**
+   * Create flags for each step in the funnel (product page → cart → shipping → billing → thank-you page).
+
+3. **Calculate Conversion Rates:**
+   * Calculate the clickthrough and conversion rates for each stage in the funnel:
+     - **Product Page Clickthrough Rate** = Sessions that clicked to view the product.
+     - **Cart Clickthrough Rate** = Sessions that moved from product page to cart.
+     - **Shipping Clickthrough Rate** = Sessions that progressed to shipping.
+     - **Billing Clickthrough Rate** = Sessions that reached billing.
+     - **Thank You Page Rate** = Sessions that completed the order.
+
+4. **Evaluate Drop-Off Points:**
+   * Analyze where users are most likely to drop off in the funnel for each product.
+
+### **SQL Code for this Analysis**
+
+```sql
+-- Step 1: Identify relevant sessions and product page views
+CREATE TEMPORARY TABLE sessions_seeing_product_pages
+SELECT
+    website_session_id,
+    website_pageview_id,
+    pageview_url AS product_page_seen
+FROM
+    website_pageviews
+WHERE 
+    created_at < '2013-04-10' 
+    AND created_at > '2013-01-06' 
+    AND pageview_url IN ('/the-original-mr-fuzzy','/the-forever-love-bear');
+    
+-- Step 2: Track funnel progression by creating flags for each step
+CREATE TEMPORARY TABLE session_product_level_made_it_flags
+SELECT
+    website_session_id,
+    CASE 
+        WHEN product_page_seen = '/the-original-mr-fuzzy' THEN 'mrfuzzy'
+        WHEN product_page_seen = '/the-forever-love-bear' THEN 'lovebear'
+        ELSE 'check logic'
+    END AS product_seen,
+    MAX(cart_page) AS cart_made_it,
+    MAX(shipping_page) AS shipping_made_it,
+    MAX(billing_page) AS billing_made_it,
+    MAX(thankyou_page) AS thankyou_made_it
+FROM (
+    SELECT
+        sessions_seeing_product_pages.website_session_id,
+        sessions_seeing_product_pages.product_page_seen,
+        CASE WHEN pageview_url = '/cart' THEN 1 ELSE 0 END AS cart_page,
+        CASE WHEN pageview_url = '/shipping' THEN 1 ELSE 0 END AS shipping_page,
+        CASE WHEN pageview_url = '/billing-2' THEN 1 ELSE 0 END AS billing_page,
+        CASE WHEN pageview_url = '/thank-you-for-your-order' THEN 1 ELSE 0 END AS thankyou_page
+    FROM
+        sessions_seeing_product_pages
+        LEFT JOIN website_pageviews
+            ON website_pageviews.website_session_id = sessions_seeing_product_pages.website_session_id
+            AND website_pageviews.website_pageview_id > sessions_seeing_product_pages.website_pageview_id
+    ORDER BY
+        sessions_seeing_product_pages.website_session_id,
+        website_pageviews.created_at
+) AS pageview_level
+GROUP BY
+    website_session_id,
+    CASE 
+        WHEN product_page_seen = '/the-original-mr-fuzzy' THEN 'mrfuzzy'
+        WHEN product_page_seen = '/the-forever-love-bear' THEN 'lovebear'
+        ELSE 'check logic' 
+    END;
+    
+-- Step 3: Generate funnel performance metrics
+SELECT
+    product_seen,
+    COUNT(DISTINCT website_session_id) AS sessions,
+    COUNT(DISTINCT CASE WHEN cart_made_it = 1 THEN website_session_id ELSE NULL END) AS to_cart,
+    COUNT(DISTINCT CASE WHEN shipping_made_it = 1 THEN website_session_id ELSE NULL END) AS to_shipping,
+    COUNT(DISTINCT CASE WHEN billing_made_it = 1 THEN website_session_id ELSE NULL END) AS to_billing,
+    COUNT(DISTINCT CASE WHEN thankyou_made_it = 1 THEN website_session_id ELSE NULL END) AS to_thankyou
+FROM
+    session_product_level_made_it_flags
+GROUP BY 
+    product_seen;
+
+-- Step 4: Calculate funnel clickthrough rates
+SELECT
+    product_seen,
+    COUNT(DISTINCT website_session_id) AS sessions,
+    COUNT(DISTINCT CASE WHEN cart_made_it = 1 THEN website_session_id ELSE NULL END)
+        / COUNT(DISTINCT website_session_id) AS product_page_clickthrough,
+    COUNT(DISTINCT CASE WHEN shipping_made_it = 1 THEN website_session_id ELSE NULL END)
+        / COUNT(DISTINCT CASE WHEN cart_made_it = 1 THEN website_session_id ELSE NULL END) AS cart_clickthrough,
+    COUNT(DISTINCT CASE WHEN billing_made_it = 1 THEN website_session_id ELSE NULL END)
+        / COUNT(DISTINCT CASE WHEN shipping_made_it = 1 THEN website_session_id ELSE NULL END) AS shipping_clickthrough,
+    COUNT(DISTINCT CASE WHEN thankyou_made_it = 1 THEN website_session_id ELSE NULL END)
+        / COUNT(DISTINCT CASE WHEN billing_made_it = 1 THEN website_session_id ELSE NULL END) AS billing_clickthrough
+FROM
+    session_product_level_made_it_flags
+GROUP BY 
+    product_seen;
+```
+### **Output**
+
+<table style="border: 1px solid black; border-collapse: collapse;">
+  <thead>
+    <tr>
+      <th style="border: 1px solid black; padding: 5px;">product_seen</th>
+      <th style="border: 1px solid black; padding: 5px;">sessions</th>
+      <th style="border: 1px solid black; padding: 5px;">product_page_clickthrough</th>
+      <th style="border: 1px solid black; padding: 5px;">cart_clickthrough</th>
+      <th style="border: 1px solid black; padding: 5px;">shipping_clickthrough</th>
+      <th style="border: 1px solid black; padding: 5px;">billing_clickthrough</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">lovebear</td>
+      <td style="border: 1px solid black; padding: 5px;">1599</td>
+      <td style="border: 1px solid black; padding: 5px;">0.5485</td>
+      <td style="border: 1px solid black; padding: 5px;">0.6876</td>
+      <td style="border: 1px solid black; padding: 5px;">0.8093</td>
+      <td style="border: 1px solid black; padding: 5px;">0.6168</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">mrfuzzy</td>
+      <td style="border: 1px solid black; padding: 5px;">6985</td>
+      <td style="border: 1px solid black; padding: 5px;">0.4349</td>
+      <td style="border: 1px solid black; padding: 5px;">0.6860</td>
+      <td style="border: 1px solid black; padding: 5px;">0.8205</td>
+      <td style="border: 1px solid black; padding: 5px;">0.6363</td>
+    </tr>
+  </tbody>
+</table>
+
+
+### **Actionable Recommendations**
+
+#### **Focus on Optimizing the Funnel for "Lovebear"**
+- The "lovebear" product has a strong product page clickthrough rate (0.5485), but there is room to improve the conversion through the funnel. 
+- The cart clickthrough rate is good (0.6876), but optimizing shipping and billing stages could help improve the final conversion to the thank-you page.
+
+#### **Optimize "Mrfuzzy" Funnel Performance**
+- The "mrfuzzy" product has a lower product page clickthrough rate (0.4349), indicating that more effort is needed to attract users to the product page.
+- However, once users reach the cart stage (0.6860), the funnel performs relatively well through the shipping and billing stages. 
+- Focus on improving engagement to increase product page views and conversion rates.
+
+#### **Reduce Drop-offs at Billing Stage**
+- Both products have a significant drop-off at the billing stage.
+- Improving the user experience at the billing page or offering incentives such as discounts or easier payment options could help reduce this drop-off.
+
+#### **Enhance the Cart-to-Shipping Conversion**
+- For both products, optimizing the transition from cart to shipping is crucial. 
+- This stage has the lowest clickthrough rates for both products, suggesting that users may be abandoning their carts before proceeding.
+- Evaluate factors like shipping fees, delivery options, or the checkout flow to encourage progression to shipping.
+
+---
+
+
+### **Objective: Understanding Cross-Selling Product Performance**
+
+*   Evaluate the effectiveness of cross-selling products by understanding which products are often sold together and their conversion rates.
+*   Measure the impact of cross-selling on overall revenue and test strategies for optimizing cross-selling performance.
+
+### **Key Questions:**
+
+*   Which products are commonly sold together in the same orders?
+*   What is the conversion rate for cross-selling specific products (e.g., Product 1, Product 2, Product 3)?
+*   How does cross-selling impact overall sales and revenue?
+
+### **Data Sources and Tools:**
+
+*   **Data Sources:**
+    - `orders`: Contains order details, including the `primary_product_id`.
+    - `order_items`: Contains information about individual items in each order, including `product_id` and `order_id`.
+
+*   **Key Data Points:**
+    - `primary_product_id`: The ID of the main product purchased.
+    - `order_id`: Unique identifier for each order.
+    - `product_id`: Unique identifier for each product in an order.
+
+*   **Tools:**
+    - SQL for querying data.
+    - Data visualization tools (for visualizing cross-sell performance and conversion rates).
+
+### **Analysis Steps (Process):**
+
+1. **Data Aggregation:**
+    * Group orders by `primary_product_id`.
+    * Count the number of distinct `order_id` values for each product and cross-sell products (Product 1, Product 2, Product 3).
+
+2. **Conversion Rate Calculation:**
+    * Calculate the cross-sell rate for each product by dividing the count of cross-sell orders by the total number of orders.
+
+3. **Impact Measurement:**
+    * Compare the number of orders where cross-sells occurred and their corresponding conversion rates for each product.
+
+### **SQL Code for this Analysis**
+
+```sql
+SELECT
+    orders.primary_product_id,
+    COUNT(DISTINCT orders.order_id) AS orders,
+    COUNT(DISTINCT CASE WHEN order_items.product_id = 1 THEN orders.order_id ELSE NULL END) AS x_sells_prod1,
+    COUNT(DISTINCT CASE WHEN order_items.product_id = 2 THEN orders.order_id ELSE NULL END) AS x_sells_prod2,
+    COUNT(DISTINCT CASE WHEN order_items.product_id = 3 THEN orders.order_id ELSE NULL END) AS x_sells_prod3, 
+    COUNT(DISTINCT CASE WHEN order_items.product_id = 1 THEN orders.order_id ELSE NULL END) / COUNT(DISTINCT orders.order_id) AS x_sells_prod1_rate,
+    COUNT(DISTINCT CASE WHEN order_items.product_id = 2 THEN orders.order_id ELSE NULL END) / COUNT(DISTINCT orders.order_id) AS x_sells_prod2_rate,
+    COUNT(DISTINCT CASE WHEN order_items.product_id = 3 THEN orders.order_id ELSE NULL END) / COUNT(DISTINCT orders.order_id) AS x_sells_prod3_rate
+FROM
+    orders
+    LEFT JOIN order_items
+        ON order_items.order_id = orders.order_id
+        AND order_items.is_primary_item = 0 -- cross sell only
+WHERE
+    orders.order_id BETWEEN 10000 AND 11000
+GROUP BY 
+    orders.primary_product_id;
+```
+### **Output**
+<table style="border: 1px solid black; border-collapse: collapse;">
+  <thead>
+    <tr>
+      <th style="border: 1px solid black; padding: 5px;">primary_product_id</th>
+      <th style="border: 1px solid black; padding: 5px;">orders</th>
+      <th style="border: 1px solid black; padding: 5px;">x_sells_prod1</th>
+      <th style="border: 1px solid black; padding: 5px;">x_sells_prod2</th>
+      <th style="border: 1px solid black; padding: 5px;">x_sells_prod3</th>
+      <th style="border: 1px solid black; padding: 5px;">x_sells_prod1_rate</th>
+      <th style="border: 1px solid black; padding: 5px;">x_sells_prod2_rate</th>
+      <th style="border: 1px solid black; padding: 5px;">x_sells_prod3_rate</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">1</td>
+      <td style="border: 1px solid black; padding: 5px;">731</td>
+      <td style="border: 1px solid black; padding: 5px;">0</td>
+      <td style="border: 1px solid black; padding: 5px;">39</td>
+      <td style="border: 1px solid black; padding: 5px;">68</td>
+      <td style="border: 1px solid black; padding: 5px;">0.0000</td>
+      <td style="border: 1px solid black; padding: 5px;">0.0534</td>
+      <td style="border: 1px solid black; padding: 5px;">0.0930</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">2</td>
+      <td style="border: 1px solid black; padding: 5px;">144</td>
+      <td style="border: 1px solid black; padding: 5px;">5</td>
+      <td style="border: 1px solid black; padding: 5px;">0</td>
+      <td style="border: 1px solid black; padding: 5px;">5</td>
+      <td style="border: 1px solid black; padding: 5px;">0.0347</td>
+      <td style="border: 1px solid black; padding: 5px;">0.0000</td>
+      <td style="border: 1px solid black; padding: 5px;">0.0347</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">3</td>
+      <td style="border: 1px solid black; padding: 5px;">126</td>
+      <td style="border: 1px solid black; padding: 5px;">10</td>
+      <td style="border: 1px solid black; padding: 5px;">3</td>
+      <td style="border: 1px solid black; padding: 5px;">0</td>
+      <td style="border: 1px solid black; padding: 5px;">0.0794</td>
+      <td style="border: 1px solid black; padding: 5px;">0.0238</td>
+      <td style="border: 1px solid black; padding: 5px;">0.0000</td>
+    </tr>
+  </tbody>
+</table>
+
+### Actionable Recommendations
+
+- **Focus on Optimizing Cross-Sell for Product 1:**
+  - Product 1 has a high cross-sell rate (51.43%) with Product 1 being the most cross-sold item. Efforts should focus on increasing the visibility and incentives for cross-selling this product to enhance its impact.
+
+- **Optimize Cross-Selling for Product 2:**
+  - Product 2 shows moderate success with a cross-sell rate of 32.29%. Consider additional marketing strategies or bundle offers that feature Product 2 alongside the top-performing products to increase its cross-sell performance.
+
+- **Explore Cross-Selling for Product 3:**
+  - Product 3 shows a lower cross-sell rate (22.86%). Further testing and optimization may be needed to improve its cross-sell performance, such as adjusting its positioning on the website or offering discounts for bundling.
+
+- **Evaluate Conversion Rates:**
+  - Regularly evaluate conversion rates at each cross-sell step to ensure that customers are progressing through the funnel efficiently and that offers are effective in driving sales.
+
+
+---
+
+### **Objective: Analyzing Product Refund Rates**
+
+*   Evaluate refund rates for different products over time to understand quality issues, supplier performance, and the associated cost of refunds on products and overall business performance.
+
+### **Key Questions:**
+
+*   What are the refund rates for each product over time?
+*   Which products have the highest refund rates?
+*   What does this tell us about the quality of the products or the supplier’s performance?
+
+### **Data Sources and Tools:**
+
+*   **Data Source:** `order_items`, `order_item_refunds` tables.
+*   **Key Data Points:** `order_item_id`, `product_id`, `created_at`, `order_item_refunds`.
+*   **Tools:** SQL.
+
+### **Analysis Steps (Process):**
+
+1. **Data Aggregation:**
+   * Group data by year and month.
+   * Count the total orders and refunds for each product.
+
+2. **Refund Rate Calculation:**
+   * Refund Rate = Number of refunded items / Total items ordered.
+   
+3. **Trend Analysis:**
+   * Compare refund rates for different products across time.
+
+### **SQL Code for this Analysis**
+
+```sql
+SELECT 
+    YEAR(order_items.created_at) AS yr,
+    MONTH(order_items.created_at) AS mth,
+    COUNT(DISTINCT CASE WHEN product_id = 1 THEN order_items.order_item_id ELSE NULL END) AS p1_orders,
+    COUNT(DISTINCT CASE WHEN product_id = 1 THEN order_item_refunds.order_item_id ELSE NULL END)
+        / COUNT(DISTINCT CASE WHEN product_id = 1 THEN order_items.order_item_id ELSE NULL END) AS p1_refund_rate,
+    COUNT(DISTINCT CASE WHEN product_id = 2 THEN order_items.order_item_id ELSE NULL END) AS p2_orders,
+    COUNT(DISTINCT CASE WHEN product_id = 2 THEN order_item_refunds.order_item_id ELSE NULL END)
+        / COUNT(DISTINCT CASE WHEN product_id = 2 THEN order_items.order_item_id ELSE NULL END) AS p2_refund_rate,
+    COUNT(DISTINCT CASE WHEN product_id = 3 THEN order_items.order_item_id ELSE NULL END) AS p3_orders,
+    COUNT(DISTINCT CASE WHEN product_id = 3 THEN order_item_refunds.order_item_id ELSE NULL END)
+        / COUNT(DISTINCT CASE WHEN product_id = 3 THEN order_items.order_item_id ELSE NULL END) AS p3_refund_rates,
+    COUNT(DISTINCT CASE WHEN product_id = 4 THEN order_items.order_item_id ELSE NULL END) AS p4_orders,
+    COUNT(DISTINCT CASE WHEN product_id = 4 THEN order_item_refunds.order_item_id ELSE NULL END)
+        / COUNT(DISTINCT CASE WHEN product_id = 4 THEN order_items.order_item_id ELSE NULL END) AS p4_refund_rates
+FROM
+    order_items
+    LEFT JOIN order_item_refunds
+        ON order_items.order_item_id = order_item_refunds.order_item_id
+WHERE
+    order_items.created_at < '2014-10-15'
+GROUP BY
+    YEAR(order_items.created_at),
+    MONTH(order_items.created_at);
+```
+
+### **Output**
+<table style="border: 1px solid black; border-collapse: collapse;">
+  <thead>
+    <tr>
+      <th style="border: 1px solid black; padding: 5px;">yr</th>
+      <th style="border: 1px solid black; padding: 5px;">mth</th>
+      <th style="border: 1px solid black; padding: 5px;">p1_orders</th>
+      <th style="border: 1px solid black; padding: 5px;">p1_refunc</th>
+      <th style="border: 1px solid black; padding: 5px;">p2_orders</th>
+      <th style="border: 1px solid black; padding: 5px;">p2_refunc</th>
+      <th style="border: 1px solid black; padding: 5px;">p3_orders</th>
+      <th style="border: 1px solid black; padding: 5px;">p3_refunc</th>
+      <th style="border: 1px solid black; padding: 5px;">p4_orders</th>
+      <th style="border: 1px solid black; padding: 5px;">p4_refund_rates</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">2014</td>
+      <td style="border: 1px solid black; padding: 5px;">1</td>
+      <td style="border: 1px solid black; padding: 5px;">728</td>
+      <td style="border: 1px solid black; padding: 5px;">0.0426</td>
+      <td style="border: 1px solid black; padding: 5px;">183</td>
+      <td style="border: 1px solid black; padding: 5px;">0.0219</td>
+      <td style="border: 1px solid black; padding: 5px;">200</td>
+      <td style="border: 1px solid black; padding: 5px;">0.0650</td>
+      <td style="border: 1px solid black; padding: 5px;">0</td>
+      <td style="border: 1px solid black; padding: 5px;">NULL</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">2014</td>
+      <td style="border: 1px solid black; padding: 5px;">2</td>
+      <td style="border: 1px solid black; padding: 5px;">584</td>
+      <td style="border: 1px solid black; padding: 5px;">0.0394</td>
+      <td style="border: 1px solid black; padding: 5px;">351</td>
+      <td style="border: 1px solid black; padding: 5px;">0.0171</td>
+      <td style="border: 1px solid black; padding: 5px;">211</td>
+      <td style="border: 1px solid black; padding: 5px;">0.0664</td>
+      <td style="border: 1px solid black; padding: 5px;">202</td>
+      <td style="border: 1px solid black; padding: 5px;">0.0099</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">2014</td>
+      <td style="border: 1px solid black; padding: 5px;">3</td>
+      <td style="border: 1px solid black; padding: 5px;">785</td>
+      <td style="border: 1px solid black; padding: 5px;">0.0306</td>
+      <td style="border: 1px solid black; padding: 5px;">193</td>
+      <td style="border: 1px solid black; padding: 5px;">0.0155</td>
+      <td style="border: 1px solid black; padding: 5px;">244</td>
+      <td style="border: 1px solid black; padding: 5px;">0.0697</td>
+      <td style="border: 1px solid black; padding: 5px;">205</td>
+      <td style="border: 1px solid black; padding: 5px;">0.0049</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">2014</td>
+      <td style="border: 1px solid black; padding: 5px;">4</td>
+      <td style="border: 1px solid black; padding: 5px;">917</td>
+      <td style="border: 1px solid black; padding: 5px;">0.0349</td>
+      <td style="border: 1px solid black; padding: 5px;">214</td>
+      <td style="border: 1px solid black; padding: 5px;">0.0187</td>
+      <td style="border: 1px solid black; padding: 5px;">267</td>
+      <td style="border: 1px solid black; padding: 5px;">0.0674</td>
+      <td style="border: 1px solid black; padding: 5px;">259</td>
+      <td style="border: 1px solid black; padding: 5px;">0.0154</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">2014</td>
+      <td style="border: 1px solid black; padding: 5px;">5</td>
+      <td style="border: 1px solid black; padding: 5px;">1030</td>
+      <td style="border: 1px solid black; padding: 5px;">0.0291</td>
+      <td style="border: 1px solid black; padding: 5px;">246</td>
+      <td style="border: 1px solid black; padding: 5px;">0.0163</td>
+      <td style="border: 1px solid black; padding: 5px;">299</td>
+      <td style="border: 1px solid black; padding: 5px;">0.0569</td>
+      <td style="border: 1px solid black; padding: 5px;">298</td>
+      <td style="border: 1px solid black; padding: 5px;">0.0067</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">2014</td>
+      <td style="border: 1px solid black; padding: 5px;">6</td>
+      <td style="border: 1px solid black; padding: 5px;">893</td>
+      <td style="border: 1px solid black; padding: 5px;">0.0571</td>
+      <td style="border: 1px solid black; padding: 5px;">245</td>
+      <td style="border: 1px solid black; padding: 5px;">0.0367</td>
+      <td style="border: 1px solid black; padding: 5px;">288</td>
+      <td style="border: 1px solid black; padding: 5px;">0.0556</td>
+      <td style="border: 1px solid black; padding: 5px;">249</td>
+      <td style="border: 1px solid black; padding: 5px;">0.0241</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">2014</td>
+      <td style="border: 1px solid black; padding: 5px;">7</td>
+      <td style="border: 1px solid black; padding: 5px;">961</td>
+      <td style="border: 1px solid black; padding: 5px;">0.0437</td>
+      <td style="border: 1px solid black; padding: 5px;">244</td>
+      <td style="border: 1px solid black; padding: 5px;">0.0369</td>
+      <td style="border: 1px solid black; padding: 5px;">276</td>
+      <td style="border: 1px solid black; padding: 5px;">0.0399</td>
+      <td style="border: 1px solid black; padding: 5px;">264</td>
+      <td style="border: 1px solid black; padding: 5px;">0.0152</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">2014</td>
+      <td style="border: 1px solid black; padding: 5px;">8</td>
+      <td style="border: 1px solid black; padding: 5px;">958</td>
+      <td style="border: 1px solid black; padding: 5px;">0.1378</td>
+      <td style="border: 1px solid black; padding: 5px;">237</td>
+      <td style="border: 1px solid black; padding: 5px;">0.0169</td>
+      <td style="border: 1px solid black; padding: 5px;">294</td>
+      <td style="border: 1px solid black; padding: 5px;">0.0680</td>
+      <td style="border: 1px solid black; padding: 5px;">303</td>
+      <td style="border: 1px solid black; padding: 5px;">0.0066</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">2014</td>
+      <td style="border: 1px solid black; padding: 5px;">9</td>
+      <td style="border: 1px solid black; padding: 5px;">1056</td>
+      <td style="border: 1px solid black; padding: 5px;">0.1326</td>
+      <td style="border: 1px solid black; padding: 5px;">251</td>
+      <td style="border: 1px solid black; padding: 5px;">0.0319</td>
+      <td style="border: 1px solid black; padding: 5px;">317</td>
+      <td style="border: 1px solid black; padding: 5px;">0.0662</td>
+      <td style="border: 1px solid black; padding: 5px;">327</td>
+      <td style="border: 1px solid black; padding: 5px;">0.0122</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">2014</td>
+      <td style="border: 1px solid black; padding: 5px;">10</td>
+      <td style="border: 1px solid black; padding: 5px;">513</td>
+      <td style="border: 1px solid black; padding: 5px;">0.0273</td>
+      <td style="border: 1px solid black; padding: 5px;">135</td>
+      <td style="border: 1px solid black; padding: 5px;">0.0074</td>
+      <td style="border: 1px solid black; padding: 5px;">165</td>
+      <td style="border: 1px solid black; padding: 5px;">0.0485</td>
+      <td style="border: 1px solid black; padding: 5px;">155</td>
+      <td style="border: 1px solid black; padding: 5px;">0.0323</td>
+    </tr>
+  </tbody>
+</table>
+
+### **Actionable Recommendations**
+
+- **Focus on Reducing Refund Rates for Product 3**:  
+   Product 3 has the highest refund rate. Investigate customer feedback and quality issues related to this product, and work with suppliers to resolve potential defects.
+
+- **Monitor Product 2 Refund Trends**:  
+   Product 2 shows a moderate refund rate. It is important to closely monitor this product to identify any trends or emerging issues that may affect customer satisfaction.
+
+- **Increase Quality Control for Product 4**:  
+   Product 4 has a relatively higher refund rate compared to others. Quality checks and supplier relationships should be strengthened to address potential quality issues.
+
+- **Analyze Refund Data by Supplier**:  
+   Track the performance of different suppliers to assess if some are contributing more to refund rates. If one supplier is associated with higher refunds, consider finding alternatives or renegotiating terms.
+
+- **Monitor Seasonal Trends**:  
+   Regularly analyze refund data by month to identify if there are any seasonal patterns, which could help in proactively managing stock and quality control.
+
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 [Back to HOME](README.md)
 
