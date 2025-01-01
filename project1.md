@@ -24,10 +24,16 @@ In this section, I delve into the traffic channel mix, analyzing both paid and f
 	2. [Objective: Cross Channel Bid Optimization](#cross-channel-bid-optimization)
 	3. [Objective: Channel Portfolio Trends](#channel-portfolio-trends)
 
-7. **Product-Level Analysis**  
+7. [**Product-Level Analysis**](#product-level-analysis)
 In this section, I use MySQL to analyze product-level sales and conversion rates, identifying cross-selling opportunities and evaluating refund rates to maintain product quality. This analysis provides valuable insights for product optimization and improving overall sales performance.
+	1. [Objective: Analyzing Order and Revenue Performance by Product](#analyzing-order-and-revenue-performance)
+	2. [Objective: Trend Analysis of Products](#trend-analysis-of-products)
+	3. [Objective: Product Level Website Analysis](#product-level-website-analysis)
+	4. [Objective: Product-Specific Conversion Funnels](#product-specific-conversion-funnels)
+	5. [Objective: Understanding Cross-Selling Product Performance](#understanding-cross-selling-product-performance)
+	6. [Objective: Analyzing Product Refund Rates](#analyzing-product-refund-rates)
 
-8. **User-Level Analysis**  
+9. **User-Level Analysis**  
 In this section, I focus on user behavior and repeat sessions, using MySQL data analysis techniques to identify the most valuable customers. I explore which traffic channels are driving these high-value users, enabling more targeted marketing strategies and improving customer retention.
 
 ---
@@ -1197,6 +1203,9 @@ GROUP BY
 
 
 ---
+<a name="product-level-analysis"></a>
+## **Product-Level Analysis**
+
 
 <a name="analyzing-order-and-revenue-performance"></a>
 ### **Objective: Analyzing Order and Revenue Performance by Product**
@@ -1748,7 +1757,7 @@ GROUP BY
 
 ---
 
-
+<a name="understanding-cross-selling-product-performance"></a>
 ### **Objective: Understanding Cross-Selling Product Performance**
 
 *   Evaluate the effectiveness of cross-selling products by understanding which products are often sold together and their conversion rates.
@@ -1873,7 +1882,7 @@ GROUP BY
 
 
 ---
-
+<a name="analyzing-product-refund-rates"></a>
 ### **Objective: Analyzing Product Refund Rates**
 
 *   Evaluate refund rates for different products over time to understand quality issues, supplier performance, and the associated cost of refunds on products and overall business performance.
