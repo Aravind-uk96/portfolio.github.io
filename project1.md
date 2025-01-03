@@ -35,11 +35,10 @@ In this section, I use MySQL to analyze product-level sales and conversion rates
 
 9. [**User-Level Analysis**](#user-level_analysis)
 In this section, I focus on user behavior and repeat sessions, using MySQL data analysis techniques to identify the most valuable customers. I explore which traffic channels are driving these high-value users, enabling more targeted marketing strategies and improving customer retention.
-1. [**Objective: Understanding Repeat Visitor Behavior**](#understanding-repeat-visitor-behavior)
-2. [**Objective: Analysing Time to Repeat**](#analysing-time-to-repeat)
-3. [**Objective: Analyzing Repeat Channel Behavior**](#repeat-channel-behavior)
-4. [**Objective: Analysing New and Repeat Conversion Rates**](#analysin-new-and-repeat-conversion-rates)
-)
+	1. [**Objective: Understanding Repeat Visitor Behavior**](#understanding-repeat-visitor-behavior)
+	2. [**Objective: Analysing Time to Repeat**](#analysing-time-to-repeat)
+	3. [**Objective: Analyzing Repeat Channel Behavior**](#repeat-channel-behavior)
+	4. [**Objective: Analysing New and Repeat Conversion Rates**](#analysin-new-and-repeat-conversion-rates)
 
 ---
 
