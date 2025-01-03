@@ -33,8 +33,13 @@ In this section, I use MySQL to analyze product-level sales and conversion rates
 	5. [Objective: Understanding Cross-Selling Product Performance](#understanding-cross-selling-product-performance)
 	6. [Objective: Analyzing Product Refund Rates](#analyzing-product-refund-rates)
 
-9. **User-Level Analysis**  
+9. [**User-Level Analysis**](#user-level_analysis)
 In this section, I focus on user behavior and repeat sessions, using MySQL data analysis techniques to identify the most valuable customers. I explore which traffic channels are driving these high-value users, enabling more targeted marketing strategies and improving customer retention.
+1. [**Objective: Understanding Repeat Visitor Behavior**](#understanding-repeat-visitor-behavior)
+2. [**Objective: Analysing Time to Repeat**](#analysing-time-to-repeat)
+3. [**Objective: Analyzing Repeat Channel Behavior**](#repeat-channel-behavior)
+4. [**Objective: Analysing New and Repeat Conversion Rates**](#analysin-new-and-repeat-conversion-rates)
+)
 
 ---
 
@@ -2101,8 +2106,503 @@ GROUP BY
 ---
 
 
+<a name="user-level_analysis"></a>
+[**User-Level Analysis**]
+
+<a name="understanding-repeat-visitor-behavior"></a>
+### **Objective: Understanding Repeat Visitor Behavior**
+
+*   Analyze repeat visitor behavior to better understand customer value and optimize marketing strategies.
+*   Determine how often customers return, the channels they use, and whether additional marketing spending is required to bring them back.
+
+### **Key Questions:**
+
+*   How often are customers returning?
+*   What channels are being used by repeat visitors?
+*   Are we paying for these customers again?
+
+### **Data Sources and Tools:**
+
+*   **Data Source:** `website_sessions` table.
+*   **Key Data Points:**
+    - `user_id`: Identifies unique customers.
+    - `website_session_id`: Tracks individual sessions.
+    - `created_at`: Session timestamp.
+    - `is_repeat_session`: Indicates if the session is a repeat visit.
+*   **Tools:**
+    - SQL for querying data.
+    - Browser cookies for identifying repeat visitors.
+
+### **Analysis Steps (Process):**
+
+1. **Identifying New and Repeat Sessions:**
+    * Extract new sessions occurring between January 1, 2014, and October 31, 2014.
+    * Join new sessions with repeat sessions for the same users, ensuring repeat sessions happen after the new sessions.
+    * Store the result in a temporary table called `sessions_w_repeats`.
+
+2. **Aggregation of Repeat Sessions:**
+    * Count the number of repeat sessions for each user.
+    * Group by repeat session count to identify trends in user behavior.
+
+3. **Output:**
+    * Aggregate and display the number of users based on their repeat session count.
+
+### **SQL Code for this Analysis**
+
+```sql
+-- Create a temporary table to identify new and repeat sessions
+CREATE TEMPORARY TABLE sessions_w_repeats
+SELECT
+    new_sessions.user_id,
+    new_sessions.website_session_id AS new_session_id,
+    website_sessions.website_session_id AS repeat_session_id
+FROM
+    (
+        SELECT
+            user_id,
+            website_session_id
+        FROM
+            website_sessions
+        WHERE
+            created_at < '2014-11-01'
+            AND created_at >= '2014-01-01'
+            AND is_repeat_session = 0 -- new sessions only
+    ) AS new_sessions
+LEFT JOIN website_sessions
+    ON website_sessions.user_id = new_sessions.user_id
+    AND website_sessions.is_repeat_session = 1 -- repeat sessions only
+    AND website_sessions.website_session_id > new_sessions.website_session_id -- session occurred later
+    AND website_sessions.created_at < '2014-11-01'
+    AND website_sessions.created_at >= '2014-01-01';
+
+-- Aggregate repeat session data by user and overall
+SELECT
+    repeat_sessions,
+    COUNT(DISTINCT user_id) AS users
+FROM
+    (
+        SELECT
+            user_id,
+            COUNT(DISTINCT new_session_id) AS new_sessions,
+            COUNT(DISTINCT repeat_session_id) AS repeat_sessions
+        FROM
+            sessions_w_repeats
+        GROUP BY
+            user_id
+        ORDER BY
+            COUNT(DISTINCT repeat_session_id)
+    ) AS user_level
+GROUP BY 
+    repeat_sessions;
+```
+
+### **Output**
+<table style="border: 1px solid black; border-collapse: collapse;">
+  <thead>
+    <tr>
+      <th style="border: 1px solid black; padding: 5px;">repeat_sessions</th>
+      <th style="border: 1px solid black; padding: 5px;">users</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">0</td>
+      <td style="border: 1px solid black; padding: 5px;">126813</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">1</td>
+      <td style="border: 1px solid black; padding: 5px;">14086</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">2</td>
+      <td style="border: 1px solid black; padding: 5px;">315</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">3</td>
+      <td style="border: 1px solid black; padding: 5px;">4686</td>
+    </tr>
+  </tbody>
+</table>
 
 
+### **Actionable Recommendations**
+
+- **Focus on Engaging First-Time Visitors (0 repeat sessions):**
+    - **Strategy:** Target the 126,813 users who haven't returned with personalized re-engagement campaigns. Consider using email marketing, retargeting ads, or push notifications to bring them back.
+    - **Objective:** Increase the likelihood of converting these users into repeat visitors by offering incentives like discounts or exclusive content.
+
+- **Enhance Retention for Single Repeat Visitors (1 repeat session):**
+    - **Strategy:** Focus on the 14,086 users who have returned once but have not yet made multiple visits. Use strategies like loyalty programs, reminder emails, or tailored recommendations to encourage more frequent visits.
+    - **Objective:** Turn these users into regular visitors and boost customer lifetime value.
+
+- **Leverage Strategies for High Engagement (2 repeat sessions):**
+    - **Strategy:** For the 315 users who have visited twice, offer deeper engagement opportunities, such as personalized offers or exclusive perks for frequent visitors.
+    - **Objective:** Foster loyalty and increase the likelihood of repeat sessions by making these users feel valued and offering incentives for continued interaction.
+
+- **Reward Highly Engaged Users (3 repeat sessions):**
+    - **Strategy:** Reward the 4,686 users who have visited three times with loyalty incentives, VIP status, or exclusive offers. Consider implementing a referral program to incentivize them to bring in new users.
+    - **Objective:** Strengthen the relationship with highly engaged users and maximize their lifetime value by making them advocates for your brand.
+
+- **Monitor Repeat Session Trends Regularly:**
+    - **Strategy:** Track the repeat session patterns of users continuously and adjust marketing strategies based on how users are engaging with your platform.
+    - **Objective:** Ensure marketing efforts are efficient and data-driven, responding quickly to shifts in user behavior.
+
+---
+
+<a name="analysing-time-to-repeat"></a>
+### **Objective: Analysing Time to Repeat**
+
+*   Analyze the time taken between a user's first session and their first repeat session to understand user engagement and retention over time.
+*   Identify how long it typically takes users to return after their first visit and use this insight for targeted marketing strategies.
+
+### **Key Questions:**
+
+*   How much time typically passes between a user's first session and their repeat session?
+*   What is the distribution of time taken for users to return for a repeat session?
+*   How can we optimize marketing efforts based on time to repeat?
+
+### **Data Sources and Tools:**
+
+*   **Data Sources:**
+    - `website_sessions`: Contains session data including `user_id`, `website_session_id`, and `created_at`.
+    
+*   **Key Data Points:**
+    - `user_id`: Unique identifier for each user.
+    - `website_session_id`: Unique session identifier.
+    - `created_at`: Timestamp of when the session was created.
+    - `is_repeat_session`: Flag indicating if the session is a repeat session.
+    
+*   **Tools:**
+    - SQL for querying data.
+    - Data analysis tools for calculating the time difference and aggregating data.
+
+### **Analysis Steps (Process):**
+
+1. **Identify Relevant Sessions:**
+    - Filter for new sessions and repeat sessions based on the `created_at` date and the `is_repeat_session` flag.
+
+2. **Find Repeating Sessions:**
+    - For each new session, identify the corresponding repeat session based on the `user_id` and the session order.
+
+3. **Find the Date for First and Second Session:**
+    - Capture the `created_at` date for both the new session and the repeat session.
+
+4. **Find the Difference:**
+    - Calculate the time difference between the first and second session (in days).
+
+5. **Aggregate User-Level Data:**
+    - Aggregate the data to calculate the average, minimum, and maximum days between the first and second session for all users.
+
+### **SQL Code for this Analysis**
+
+```sql
+CREATE TEMPORARY TABLE sessions_w_repeats_for_time_diff
+SELECT
+    new_sessions.user_id,
+    new_sessions.website_session_id AS new_session_id,
+    new_sessions.created_at AS new_session_created_at,
+    website_sessions.website_session_id AS repeat_session_id,
+    website_sessions.created_at AS repeat_session_created_at
+FROM
+    (
+    SELECT
+        user_id,
+        website_session_id,
+        created_at
+    FROM
+        website_sessions
+    WHERE
+        created_at < '2014-11-03'
+        AND created_at >= '2014-01-01'
+        AND is_repeat_session = 0
+    ) AS new_sessions
+LEFT JOIN
+    website_sessions
+    ON website_sessions.user_id = new_sessions.user_id
+    AND website_sessions.is_repeat_session = 1
+    AND website_sessions.website_session_id > new_sessions.website_session_id
+    AND website_sessions.created_at < '2014-11-03'
+    AND website_sessions.created_at >= '2014-01-01';
+
+CREATE TEMPORARY TABLE user_first_to_second
+SELECT
+    user_id,
+    DATEDIFF(second_session_created_at, new_session_created_at) AS days_first_to_second_session
+FROM
+    (
+    SELECT
+        user_id,
+        new_session_id,
+        new_session_created_at,
+        MIN(repeat_session_id) AS second_session_id,
+        MIN(repeat_session_created_at) AS second_session_created_at
+    FROM
+        sessions_w_repeats_for_time_diff
+    WHERE
+        repeat_session_id IS NOT NULL
+    GROUP BY 1,2,3
+    ) AS first_second;
+
+SELECT
+    AVG(days_first_to_second_session) AS avg_days_from_first_to_second,
+    MIN(days_first_to_second_session) AS min_days_from_first_to_second,
+    MAX(days_first_to_second_session) AS max_days_from_first_to_second
+FROM
+    user_first_to_second;
+```
+### **Output**
+<table style="border: 1px solid black; border-collapse: collapse;">
+  <thead>
+    <tr>
+      <th style="border: 1px solid black; padding: 5px;">avg_days_from_first_to_second</th>
+      <th style="border: 1px solid black; padding: 5px;">min_days_from_first_to_second</th>
+      <th style="border: 1px solid black; padding: 5px;">max_days_from_first_to_second</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">33.2622</td>
+      <td style="border: 1px solid black; padding: 5px;">1</td>
+      <td style="border: 1px solid black; padding: 5px;">69</td>
+    </tr>
+  </tbody>
+</table>
+
+### **Actionable Recommendations:**
+
+1. **Focus on Retaining Customers Within 33 Days:**
+   - With an average time of 33 days between a user's first and second session, strategies to retain users within this time frame should be prioritized. Consider targeted email campaigns, personalized offers, or retargeting ads to bring users back within this critical window.
+
+2. **Evaluate Early Returners (1 Day Gap):**
+   - The minimum time between first and second sessions is just 1 day. These early returners represent a segment that may already have a high level of intent or interest. Special offers or incentives could be tailored to encourage them to convert more quickly.
+
+3. **Maximize Engagement for Users with Longer Gaps (69 Days):**
+   - The longest gap between sessions is 69 days. It's important to create engagement strategies for users who take longer to return. Retargeting ads, reminders, or limited-time offers may help re-engage these users before they lose interest.
+
+4. **Monitor User Retention Trends:**
+   - Regularly track the time between first and second sessions to identify any trends or shifts in user behavior. An increase in time between sessions may indicate issues with user engagement or a need for improvement in the user experience.
+
+5. **Optimize for User Re-engagement:**
+   - Given the variability in return times (from 1 to 69 days), consider implementing automated re-engagement workflows, personalized reminders, or loyalty incentives for users who have shown interest but may not be consistently returning.
+
+
+---
+
+
+<a name="repeat-channel-behavior"></a>
+### **Objective: Analyzing Repeat Channel Behavior**
+
+*   Identify the different channels driving traffic and analyze repeat session behavior across these channels.
+*   Measure the distribution of new and repeat sessions for each channel group.
+
+### **Key Questions:**
+
+*   Which channels are driving repeat visits?
+*   How do repeat sessions compare across different marketing channels?
+*   What is the breakdown of new and repeat sessions for each channel?
+
+### **Data Sources and Tools:**
+
+*   **Data Sources:**
+    - `website_sessions`: Contains details about website visits, including `utm_source`, `utm_campaign`, `http_referer`, and `is_repeat_session`.
+
+*   **Key Data Points:**
+    - `utm_source`: The source of the traffic (e.g., paid, organic, etc.).
+    - `utm_campaign`: The specific campaign that drove the traffic.
+    - `http_referer`: The URL that referred the traffic.
+    - `website_session_id`: Unique identifier for each session.
+    - `is_repeat_session`: Flag indicating whether the session is a repeat session.
+  
+*   **Tools:**
+    - SQL for querying data.
+
+### **Analysis Steps (Process):**
+
+1. **Identify Channel Groups:**
+    * Use conditions to categorize traffic sources into groups like 'organic_search', 'paid_nonbrand', 'paid_brand', 'direct_type_in', and 'paid_social'.
+
+2. **Session Count Calculation:**
+    * Count the number of new and repeat sessions for each channel group.
+
+### **SQL Code for this Analysis**
+
+```sql
+SELECT
+	CASE
+		WHEN utm_source IS NULL AND http_referer IN ('https://www.gsearch.com','https://www.bsearch.com') THEN 'organic_search'
+        WHEN utm_campaign = 'nonbrand' THEN 'paid_nonbrand'
+        WHEN utm_campaign = 'brand' THEN 'paid_brand'
+        WHEN utm_source IS NULL AND http_referer IS NULL THEN 'direct_type_in'
+        WHEN utm_source = 'socialbook' THEN 'paid_social'
+	END AS channel_group,
+	COUNT(CASE WHEN is_repeat_session = 0 THEN website_session_id ELSE NULL END) AS new_sessions,
+    COUNT(CASE WHEN is_repeat_session = 1 THEN website_session_id ELSE NULL END) AS repeat_sessions
+FROM
+	website_sessions
+WHERE
+	created_at < '2014-11-05'
+    AND created_at >= '2014-01-01'
+GROUP BY
+	1
+ORDER BY
+	3;
+```
+
+### **Output**
+<table style="border: 1px solid black; border-collapse: collapse;">
+  <thead>
+    <tr>
+      <th style="border: 1px solid black; padding: 5px;">channel_group</th>
+      <th style="border: 1px solid black; padding: 5px;">new_sessions</th>
+      <th style="border: 1px solid black; padding: 5px;">repeat_sessions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">paid_social</td>
+      <td style="border: 1px solid black; padding: 5px;">7652</td>
+      <td style="border: 1px solid black; padding: 5px;">0</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">paid_nonl</td>
+      <td style="border: 1px solid black; padding: 5px;">119950</td>
+      <td style="border: 1px solid black; padding: 5px;">0</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">direct_typ</td>
+      <td style="border: 1px solid black; padding: 5px;">6591</td>
+      <td style="border: 1px solid black; padding: 5px;">10564</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">paid_bran</td>
+      <td style="border: 1px solid black; padding: 5px;">6432</td>
+      <td style="border: 1px solid black; padding: 5px;">11027</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">organic_se</td>
+      <td style="border: 1px solid black; padding: 5px;">7139</td>
+      <td style="border: 1px solid black; padding: 5px;">11507</td>
+    </tr>
+  </tbody>
+</table>
+
+
+### Actionable Recommendations:
+
+1. **Optimize Paid Social and Paid Non-Brand Channels:**
+   - `paid_social` and `paid_nonl` show no repeat sessions. This indicates that the traffic from these sources is not coming back. Consider adjusting your marketing strategy for these channels, such as offering re-engagement campaigns, better retargeting, or exclusive deals to attract returning users.
+
+2. **Capitalize on Direct Type-In and Organic Search:**
+   - Both `direct_typ` and `organic_se` have strong repeat sessions. It indicates that visitors from these channels are more likely to return. Invest in loyalty programs, content, and special offers to nurture these high-engagement users and convert them into repeat customers.
+
+3. **Focus on Paid Brand for Retention:**
+   - `paid_bran` has a healthy number of repeat sessions. You can strengthen brand awareness efforts further and invest in retargeting strategies to ensure users who came through this channel keep coming back.
+
+4. **Explore Cross-Channel Synergies:**
+   - There may be an opportunity to explore synergies between channels. For instance, users who land through paid ads could be retargeted with organic content to encourage repeat visits. Combining efforts across organic and paid channels may help reduce churn and maximize return on investment (ROI).
+
+---
+<a name="analysin-new-and-repeat-conversion-rates"></a>
+# **Objective: Analysing New and Repeat Conversion Rates**
+
+*   Assess the conversion rates for both new and repeat sessions to understand customer behavior.
+*   Measure the revenue per session for both new and repeat visitors.
+*   Optimize marketing strategies by identifying the impact of repeat customers on conversions and revenue.
+
+## **Key Questions:**
+
+*   What are the conversion rates for new versus repeat sessions?
+*   How does the revenue per session compare between new and repeat sessions?
+*   How can we optimize strategies based on conversion rates for new and repeat visitors?
+
+## **Data Sources and Tools:**
+
+*   **Data Sources:**
+    - `website_sessions`: Contains session details, including session ID and type (new or repeat).
+    - `orders`: Contains order details, including order ID, session ID, and total price.
+
+*   **Key Data Points:**
+    - `website_session_id`: Unique identifier for each session.
+    - `is_repeat_session`: Indicator if the session is a repeat (1) or new (0).
+    - `order_id`: Unique identifier for each order.
+    - `price_usd`: The price of each order.
+
+*   **Tools:**
+    - SQL for querying data.
+    - Data visualization tools for analyzing conversion rates and revenue per session.
+
+## **Analysis Steps (Process):**
+
+1. **Identify Session Type:**
+    * Identify and distinguish between new and repeat sessions from the `website_sessions` table.
+
+2. **Conversion Rate Calculation:**
+    * Calculate conversion rates by dividing the number of orders by the number of sessions for both new and repeat sessions.
+
+3. **Revenue Per Session Calculation:**
+    * Calculate revenue per session by dividing total revenue by the number of sessions.
+
+## **SQL Code for this Analysis**
+
+```sql
+SELECT
+    is_repeat_session,
+    COUNT(DISTINCT website_sessions.website_session_id) AS sessions,
+    COUNT(DISTINCT orders.order_id) / COUNT(DISTINCT website_sessions.website_session_id) AS conversion_rates,
+    SUM(price_usd) / COUNT(DISTINCT website_sessions.website_session_id) AS revenue_per_session
+FROM
+    website_sessions
+    LEFT JOIN orders
+        ON website_sessions.website_session_id = orders.website_session_id
+WHERE
+    website_sessions.created_at < '2014-11-08'
+    AND website_sessions.created_at >= '2014-01-01'
+GROUP BY 1;
+```
+
+## **Output**
+
+<table style="border: 1px solid black; border-collapse: collapse;">
+  <thead>
+    <tr>
+      <th style="border: 1px solid black; padding: 5px;">is_repeat_session</th>
+      <th style="border: 1px solid black; padding: 5px;">sessions</th>
+      <th style="border: 1px solid black; padding: 5px;">conversion_rates</th>
+      <th style="border: 1px solid black; padding: 5px;">revenue_per_session</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">0</td>
+      <td style="border: 1px solid black; padding: 5px;">149787</td>
+      <td style="border: 1px solid black; padding: 5px;">0.068</td>
+      <td style="border: 1px solid black; padding: 5px;">4.343754</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 5px;">1</td>
+      <td style="border: 1px solid black; padding: 5px;">33577</td>
+      <td style="border: 1px solid black; padding: 5px;">0.0811</td>
+      <td style="border: 1px solid black; padding: 5px;">5.168828</td>
+    </tr>
+  </tbody>
+</table>
+
+### **Actionable Recommendations:**
+
+- **Optimize Conversion Rates for New Sessions:**
+  - The conversion rate for new sessions is currently at 6.8%. Consider optimizing the user experience for new visitors, such as improving website navigation, offering targeted promotions, or enhancing the first-time user experience. This could potentially increase the likelihood of converting these users into paying customers.
+
+- **Focus on Increasing Revenue for Repeat Sessions:**
+  - The revenue per session for repeat sessions (5.17) is higher than for new sessions (4.34), which suggests that repeat customers are more valuable. Strategies like loyalty programs, personalized recommendations, and email marketing could help in increasing the lifetime value of these repeat customers.
+
+- **Increase Repeat Session Conversion Rates:**
+  - Although repeat session conversion rates (8.11%) are higher than those for new sessions, there is still room for improvement. Encourage repeat visitors to engage with promotions or exclusive offers that reward returning customers. Consider offering time-sensitive discounts to drive urgency.
+
+- **Segmentation and Targeted Marketing:**
+  - Given the difference in conversion rates between new and repeat visitors, it may be beneficial to segment your marketing efforts. Use targeted ads or content aimed specifically at new users to increase conversion rates, while also nurturing repeat customers through personalized and loyalty-driven marketing.
+
+
+---
 
 
 
