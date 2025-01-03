@@ -35,10 +35,10 @@ In this section, I use MySQL to analyze product-level sales and conversion rates
 
 9. [**User-Level Analysis**](#user-level_analysis)
 In this section, I focus on user behavior and repeat sessions, using MySQL data analysis techniques to identify the most valuable customers. I explore which traffic channels are driving these high-value users, enabling more targeted marketing strategies and improving customer retention.
-	1. [**Objective: Understanding Repeat Visitor Behavior**](#understanding-repeat-visitor-behavior)
-	2. [**Objective: Analysing Time to Repeat**](#analysing-time-to-repeat)
-	3. [**Objective: Analyzing Repeat Channel Behavior**](#repeat-channel-behavior)
-	4. [**Objective: Analysing New and Repeat Conversion Rates**](#analysin-new-and-repeat-conversion-rates)
+	1. [Objective: Understanding Repeat Visitor Behavior**](#understanding-repeat-visitor-behavior)
+	2. [Objective: Analysing Time to Repeat**](#analysing-time-to-repeat)
+	3. [Objective: Analyzing Repeat Channel Behavior**](#repeat-channel-behavior)
+	4. [Objective: Analysing New and Repeat Conversion Rates**](#analysin-new-and-repeat-conversion-rates)
 
 ---
 
@@ -1214,6 +1214,9 @@ GROUP BY
 <a name="analyzing-order-and-revenue-performance"></a>
 ### **Objective: Analyzing Order and Revenue Performance by Product**
 
+![Product Analysis](Assets/product_analysis.png)
+
+
 *   Evaluate the performance of primary products in terms of orders, revenue, margin, and average order value (AOV).
 *   Identify the top-selling products and their contributions to overall revenue and profitability.
 
@@ -1327,6 +1330,9 @@ ORDER BY
 
 <a name="trend-analysis-of-products"></a>
 ### **Objective: Trend Analysis of Products**
+
+![Seasonality Analysis](Assets/seasonality_analysis.png)
+
 
 *   Analyze the sales and revenue trends over a period, specifically by month and year.
 *   Identify monthly fluctuations in sales volume, total revenue, and margin.
@@ -1486,6 +1492,9 @@ GROUP BY
 
 <a name="product-level-website-analysis"></a>
 ### **Objective: Product Level Website Analysis**
+
+![Product Level Analysis](Assets/product_level_website_analysis.png)
+
 
 *   Understand which products generate more interest on a multi-product page.
 *   Analyze the impact of product conversion rates.
@@ -1764,6 +1773,9 @@ GROUP BY
 <a name="understanding-cross-selling-product-performance"></a>
 ### **Objective: Understanding Cross-Selling Product Performance**
 
+![Cross Selling](Assets/product_cross_selling.png)
+
+
 *   Evaluate the effectiveness of cross-selling products by understanding which products are often sold together and their conversion rates.
 *   Measure the impact of cross-selling on overall revenue and test strategies for optimizing cross-selling performance.
 
@@ -1888,6 +1900,9 @@ GROUP BY
 ---
 <a name="analyzing-product-refund-rates"></a>
 ### **Objective: Analyzing Product Refund Rates**
+
+![Product refund](Assets/product%20refund%20analysis.png)
+
 
 *   Evaluate refund rates for different products over time to understand quality issues, supplier performance, and the associated cost of refunds on products and overall business performance.
 
@@ -2106,10 +2121,12 @@ GROUP BY
 
 
 <a name="user-level_analysis"></a>
-[**User-Level Analysis**]
+## **User-Level Analysis**
 
 <a name="understanding-repeat-visitor-behavior"></a>
 ### **Objective: Understanding Repeat Visitor Behavior**
+
+  ![User behaviour](Assets/user_behaviour.png)
 
 *   Analyze repeat visitor behavior to better understand customer value and optimize marketing strategies.
 *   Determine how often customers return, the channels they use, and whether additional marketing spending is required to bring them back.
@@ -2502,19 +2519,19 @@ ORDER BY
 
 ---
 <a name="analysin-new-and-repeat-conversion-rates"></a>
-# **Objective: Analysing New and Repeat Conversion Rates**
+### **Objective: Analysing New and Repeat Conversion Rates**
 
 *   Assess the conversion rates for both new and repeat sessions to understand customer behavior.
 *   Measure the revenue per session for both new and repeat visitors.
 *   Optimize marketing strategies by identifying the impact of repeat customers on conversions and revenue.
 
-## **Key Questions:**
+### **Key Questions:**
 
 *   What are the conversion rates for new versus repeat sessions?
 *   How does the revenue per session compare between new and repeat sessions?
 *   How can we optimize strategies based on conversion rates for new and repeat visitors?
 
-## **Data Sources and Tools:**
+### **Data Sources and Tools:**
 
 *   **Data Sources:**
     - `website_sessions`: Contains session details, including session ID and type (new or repeat).
@@ -2530,7 +2547,7 @@ ORDER BY
     - SQL for querying data.
     - Data visualization tools for analyzing conversion rates and revenue per session.
 
-## **Analysis Steps (Process):**
+### **Analysis Steps (Process):**
 
 1. **Identify Session Type:**
     * Identify and distinguish between new and repeat sessions from the `website_sessions` table.
@@ -2541,7 +2558,7 @@ ORDER BY
 3. **Revenue Per Session Calculation:**
     * Calculate revenue per session by dividing total revenue by the number of sessions.
 
-## **SQL Code for this Analysis**
+### **SQL Code for this Analysis**
 
 ```sql
 SELECT
@@ -2559,7 +2576,7 @@ WHERE
 GROUP BY 1;
 ```
 
-## **Output**
+### **Output**
 
 <table style="border: 1px solid black; border-collapse: collapse;">
   <thead>
