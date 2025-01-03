@@ -39,5 +39,5 @@
 
 ### **How to Reach Me**
 - 📧 Email: [aravind.uk96@gmail.com](mailto:aravind.uk96@gmail.com)  
-- 💼 LinkedIn: [www.linkedin.com/in/aravind-krishnan-22b3631b5](#)  
-- 🖥 GitHub: [[Your GitHub Profile](https://github.com/Aravind-uk96/portfolio.github.io)](#)
+- 💼 LinkedIn: [Aravind U Krishnan](www.linkedin.com/in/aravind-krishnan-22b3631b5) 
+- 🖥 GitHub: [Aravind-uk96](https://github.com/Aravind-uk96/portfolio.github.io)
