@@ -1,5 +1,6 @@
 title: Aravind U Krishnan
+logo: /assets/landing_page.png
 description: [Welcome to my portfolio projects]
-show_downloads: true 
+show_downloads: False 
 theme: jekyll-theme-minimal
 
