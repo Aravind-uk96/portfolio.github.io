@@ -1,7 +1,13 @@
 // Import the default theme styles
 @import "{{ site.theme }}";
 
-// Make body take up full width and avoid any narrow spacing
+// General reset for all elements
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -9,12 +15,15 @@ body {
   min-height: 100vh;  // Make the body take up at least the full height of the screen
   display: flex;
   flex-direction: column;
+  font-family: 'Roboto', sans-serif;  // Use a clean, modern font
+  background-color: #f4f4f4;  // Soft background color for the whole page
+  color: #333;  // Dark text for good contrast
 }
 
 // Ensure the wrapper takes full width and doesn't have max-width
 .wrapper {
   width: 100%;
-  max-width: 100%;  // No maximum width to ensure full screen
+  max-width: 100%;
   margin: 0;
   padding: 0;
   display: flex;
@@ -27,8 +36,34 @@ header {
   width: 100%;
   background-color: #333;
   color: white;
-  padding: 20px;
-  box-sizing: border-box;  // Prevents padding from affecting width
+  padding: 30px 20px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+header p {
+  font-size: 1.2rem;
+  margin-top: 10px;
+}
+
+header .logo-img {
+  max-width: 150px;
+  margin-top: 10px;
+}
+
+header a {
+  color: #fff;
+  text-decoration: none;
+}
+
+header a:hover {
+  color: #3498db;
 }
 
 // Footer styling
@@ -38,16 +73,51 @@ footer {
   color: white;
   padding: 20px;
   text-align: center;
-  box-sizing: border-box;  // Prevents padding from affecting width
+  box-sizing: border-box;
+}
+
+footer .footer-text {
+  font-size: 0.9rem;
+}
+
+footer .footer-link {
+  color: #3498db;
+}
+
+footer .footer-link:hover {
+  text-decoration: underline;
 }
 
 // Section styling for content area
 section {
   width: 100%;
   margin: 0;
-  padding: 20px;
+  padding: 30px 20px;
   background-color: #fff;
   flex: 1;  // Makes the section take up the remaining space
-  max-width: 100%;  // Ensures it doesn't get too narrow on wide screens
-  box-sizing: border-box;  // Prevents padding from affecting width
+  max-width: 100%;
+  box-sizing: border-box;
+  font-size: 1.1rem;  // Slightly larger font for content for readability
+  line-height: 1.6;
+}
+
+// Links inside the content section
+a {
+  color: #3498db;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+// Responsive styles for smaller screens
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 2rem;
+  }
+
+  section {
+    padding: 20px;
+  }
 }
