@@ -1,83 +1,14 @@
-// Import the theme styles
+// Import theme styles
+@import "{{ site.theme }}";
 
-
-// Make body take up full width and avoid any narrow spacing
+// Basic body and wrapper styling for testing
 body {
   margin: 0;
   padding: 0;
-  width: 100%;
-  font-family: Arial, sans-serif; // Default font family
-  background-color: #f4f4f4; // Light background color for the page
+  background-color: #f0f0f0; // Light gray background to check if it's applied
 }
 
-// Wrapper to hold the entire page layout
 .wrapper {
   width: 100%;
-  max-width: 100%;
-  margin: 0 auto; // Ensure the wrapper is centered if content has max-width
+  background-color: #fff; // White background for wrapper
 }
-
-// Header Section Styles
-header {
-  width: 100%;
-  background-color: #333; // Dark background for the header
-  color: #fff; // White text color for header
-  padding: 20px; // Padding to create space inside the header
-}
-
-header h1 {
-  margin: 0;
-  font-size: 2em; // Larger text for the site title
-}
-
-header .view, header .downloads {
-  font-size: 14px; // Optional: Adjust font size for links in header
-}
-
-// Main Content Section Styles
-section {
-  width: 100%;
-  padding: 20px;
-  background-color: #fff; // White background for the content area
-  margin: 0; // Remove any default margin
-  max-width: 100%; // Ensure it stretches to full width
-}
-
-// Footer Section Styles
-footer {
-  width: 100%;
-  background-color: #333; // Dark background for the footer
-  color: #fff; // White text color for footer
-  padding: 20px; // Padding for footer content
-  text-align: center; // Center the footer text
-}
-
-footer p {
-  margin: 0;
-  font-size: 14px; // Optional: Font size for footer text
-}
-
-footer a {
-  color: #fff; // White color for footer links
-  text-decoration: none; // Remove underlines from links
-}
-
-footer a:hover {
-  text-decoration: underline; // Underline links on hover
-}
-
-// Optional: Add media queries for responsiveness (optional but recommended)
-@media (max-width: 768px) {
-  header h1 {
-    font-size: 1.5em; // Adjust title size for smaller screens
-  }
-
-  section {
-    padding: 15px; // Reduce padding on smaller screens
-  }
-
-  footer {
-    padding: 15px; // Reduce padding on footer for smaller screens
-  }
-}
-
