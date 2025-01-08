@@ -125,6 +125,8 @@ A comprehensive review of the six dashboards created, designed to provide action
 ### 🎯 **Objective**  
 Understand individual customer contributions, demographics, and behavioral trends for targeted insights.
 
+![customer dashboard](Assets/project2/customer_dashboard.png)
+
 ### 📈 **Features & Insights**  
 - **Top KPIs**:  
   - Unique Customers: Total number of distinct customers.  
@@ -147,6 +149,9 @@ Understand individual customer contributions, demographics, and behavioral trend
 
 ### 🎯 **Objective**  
 Deliver a high-level overview of business performance for stakeholders, focusing on revenue, profitability, and returns.
+
+![executive dashboard](Assets/project2/exe_dashboard.png)
+
 
 ### 📈 **Features & Insights**  
 - **Top KPIs**:  
@@ -172,6 +177,8 @@ Deliver a high-level overview of business performance for stakeholders, focusing
 ### 🎯 **Objective**  
 Identify the key factors influencing customer behavior and pricing strategies.
 
+![key influencer dashboard](Assets/project2/key_influencer_dashboard.png)
+
 ### 📈 **Features & Insights**  
 - **Key Influencers**:  
   - Factors like Marital Status, Parental Status, Income Levels, and Occupation driving homeowner trends.  
@@ -193,6 +200,8 @@ Identify the key factors influencing customer behavior and pricing strategies.
 ### 🎯 **Objective**  
 Analyze product performance to identify key sales drivers, profitability, and return trends.
 
+![Product dashboard](Assets/project2/product_dashboard.png)
+
 ### 📈 **Features & Insights**  
 - **Top KPIs**:  
   - Revenue, Orders, Profit, and Return Percentage.
@@ -212,6 +221,8 @@ Analyze product performance to identify key sales drivers, profitability, and re
 
 ### 🎯 **Objective**  
 Empower users with interactive Q&A capabilities powered by AI for instant, tailored insights.
+
+![qna dashboard](Assets/project2/qna_dashboard.png)
 
 ### 📈 **Features & Insights**  
 - **Interactive Questions**:  
