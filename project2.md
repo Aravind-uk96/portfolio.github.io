@@ -259,6 +259,39 @@ Break down hierarchical data to uncover underlying trends and relationships.
 
 ---
 
+## 7️⃣ **Bubble Map: Order Distribution Across Countries**
+
+### 🎯 **Objective**  
+Visualize global order distribution with an interactive, geographic perspective to identify key markets and trends.  
+
+![bubble map](Assets/project2/map_dashboard.png)
+
+### 📈 **Features & Insights**  
+
+- **Data Representation**:  
+  - The map overlays countries with bubbles.  
+  - **Bubble Size**: Reflects total orders from each country (larger bubbles = more orders).  
+
+- **Interactive Filters**:  
+  - **"Select All"**: View global distribution.  
+  - **"Europe"**: Focus on European countries.  
+  - **"North America"**: Isolate North American data.  
+  - **"Pacific"**: Highlight Pacific region orders.  
+
+- **Key Insights**:  
+  - **United States**: Largest bubble, indicating the highest order volume.  
+  - **Canada**: Smaller bubble, showcasing lower order volume compared to the U.S.  
+  - **Europe**: Varying bubble sizes in countries like the UK, France, and Germany, reflecting different order levels.
+
+### 🌟 **Significance**  
+
+- **Clarity**: Provides a quick and intuitive overview of geographic order distribution.  
+- **Actionable Insights**: Identifies key markets for resource allocation and strategy development.  
+- **Enhanced Decision-Making**: Facilitates regional performance comparisons to inform marketing and sales initiatives.
+
+---
+
+
 ## 📌 **Conclusion**
 
 These dashboards form a robust suite of business intelligence tools, offering:  
