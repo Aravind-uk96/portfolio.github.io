@@ -1,14 +1,4 @@
-// Import theme styles
+---
+---
+
 @import "{{ site.theme }}";
-
-// Basic body and wrapper styling for testing
-body {
-  margin: 0;
-  padding: 0;
-  background-color: #f0f0f0; // Light gray background to check if it's applied
-}
-
-.wrapper {
-  width: 100%;
-  background-color: #fff; // White background for wrapper
-}
