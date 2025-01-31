@@ -2,6 +2,11 @@
 
 ---
 
+[Power BI file for this project](https://github.com/Aravind-uk96/portfolio.github.io/blob/main/projects)
+[Download Raw file](https://github.com/Aravind-uk96/portfolio.github.io/raw/main/projects/adventureworks_reports1.pbix)
+
+---
+
 ## **Introduction** ✨
 
 This project highlights the application of Power BI to transform raw datasets into meaningful, interactive visualizations and actionable business insights. The goal was to demonstrate the full capabilities of Power BI in data preparation, modeling, and dashboard design, providing a robust tool for data-driven decision-making.
